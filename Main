@@ -1,4 +1,0 @@
-#lang racket
-(define (Quaternion)
-
-"pizza pie")
