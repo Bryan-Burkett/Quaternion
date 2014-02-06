@@ -1,11 +1,9 @@
 #lang racket
  
-(struct quaternion (h i j k))
- 
-;(define (add . quaternions)
-;  "add quaternions")
+(struct quaternion (h i j k) #:inspector #f)
 
-; I just made everything a quaternion before adding it
+; This function takes a real, complex, or quaternion number as input, and returns a quaternion with the equivalent value.
+; The arithmetic functions use (make-quaternion parameter) so they can handle real and complex paramters
 (define (make-quaternion x)
   (if (quaternion? x)
       x
@@ -15,60 +13,86 @@
               (quaternion x 0 0 0))
           (quaternion 0 0 0 0))))
 
-(define (add . quaternions)
+; Take any number of quaternions, real numbers, and complex numbers and return the sum as a quaternion struct
+(define (quaternion-add . quaternions)
   (let ((quaternion-list (map make-quaternion quaternions)))
     (quaternion (apply + (map quaternion-h quaternion-list))
                 (apply + (map quaternion-i quaternion-list))
                 (apply + (map quaternion-j quaternion-list))
                 (apply + (map quaternion-k quaternion-list)))))
  
-(define (subtract . quaternions)
-  "subtract quaternions")
+; Take any number of quaternions, real numbers, and complex numbers and return the sum as a quaternion struct
+(define (quaternion-subtract . quaternions)
+  (let ((quaternion-list (map make-quaternion quaternions)))
+    (quaternion (apply - (map quaternion-h quaternion-list))
+                (apply - (map quaternion-i quaternion-list))
+                (apply - (map quaternion-j quaternion-list))
+                (apply - (map quaternion-k quaternion-list)))))
 
-(define (multiply . quaternions)
-  "multiply quaternions")
+; THIS FUNCTION CURRENTLY RETURNS THE WRONG ANSWER - GO WITH AARON'S
+(define (quaternion-multiply . quaternions)
+  (define (multiply-two-quaternions quaternion1 quaternion2)
+    (quaternion (- (* (quaternion-h quaternion1) (quaternion-h quaternion2))
+                   (* (quaternion-i quaternion1) (quaternion-i quaternion2))
+                   (* (quaternion-j quaternion1) (quaternion-j quaternion2))
+                   (* (quaternion-k quaternion1) (quaternion-k quaternion2)))
+                (+ (* (quaternion-h quaternion1) (quaternion-i quaternion2))
+                   (* (quaternion-i quaternion1) (quaternion-h quaternion2))
+                   (* (quaternion-j quaternion1) (quaternion-k quaternion2))
+                   (- (* (quaternion-k quaternion1) (quaternion-j quaternion2))))
+                (+ (* (quaternion-h quaternion1) (quaternion-j quaternion2))
+                   (* (quaternion-j quaternion1) (quaternion-h quaternion2))
+                   (* (quaternion-k quaternion1) (quaternion-i quaternion2))
+                   (- (* (quaternion-i quaternion1) (quaternion-k quaternion2))))
+                (+ (* (quaternion-h quaternion1) (quaternion-k quaternion2))
+                   (* (quaternion-k quaternion1) (quaternion-h quaternion2))
+                   (* (quaternion-i quaternion1) (quaternion-j quaternion2))
+                   (- (* (quaternion-j quaternion1) (quaternion-i quaternion2))))))
+  (foldl multiply-two-quaternions (car quaternions) (cdr quaternions)))
 
-(define (divide . quaternions)
+(define (quaternion-divide . quaternions)
   "divide quaternions")
  
-(define (conjugate quaternion)
-  "conjugate quaternion")
+(define (quaternion-conjugate number)
+  (let ((q (make-quaternion number)))
+    (quaternion (quaternion-h q)
+                (- (quaternion-i q))
+                (- (quaternion-j q))
+                (- (quaternion-k q)))))
 
-(define (magnitude q)
-  "magnitude of q")
+(define (quaternion-norm number)
+  (let ((q (make-quaternion number)))
+    (+ (expt (quaternion-h q) 2)
+       (expt (quaternion-i q) 2)
+       (expt (quaternion-j q) 2)
+       (expt (quaternion-k q) 2))))
 
-(define (exp q)
+(define (quaternion-magnitude number)
+  (let ((q (make-quaternion number)))
+    (sqrt (quaternion-norm q))))
+
+(define (quaternion-exp q)
   "e^q")
 
-(define (log q)
+(define (quaternion-log q)
   "logarithm of q")
 
-(define (sin q)
+(define (quaternion-sin q)
   "sin of q")
 
-(define (cos q)
+(define (quaternion-cos q)
   "cos of q")
 
-(define (expt quaterion1 quaternion2)
+(define (quaternion-expt quaterion1 quaternion2)
   "quaternion1 ^ quaternion2")
 
 (define (quaternion-equal quaternion1 quaternion2)
   "are q1 and q2 equal")
-  
-
-; Hopefully we can do something to the struct instead of using this
-
-(define (quaternion->list quaternion)
-  (list (quaternion-h quaternion)
-        (quaternion-i quaternion)
-        (quaternion-j quaternion)
-        (quaternion-k quaternion)))
 
 ; testing
 
-(define q1 (quaternion 1 2 3 4))
-(define q2 (quaternion 2 3 4 5))
+(define q1 (quaternion 5 4 3 2))
+(define q2 (quaternion 4 5 6 7))
 (define q3 (quaternion 3 4 5 6))
-(define q-sum (add q1 q2 q3))
-(quaternion->list q-sum)
-(quaternion->list (add 1 4+4i (quaternion 1 2 3 4)))
+(quaternion-add q1 q2 q3)
+(quaternion-multiply q1 q2)
