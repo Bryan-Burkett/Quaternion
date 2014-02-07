@@ -36,22 +36,36 @@
                 (apply - (map quaternion-j quaternion-list))
                 (apply - (map quaternion-k quaternion-list)))))
 
+(define (seqOperater x y quaternions)
+  (let((q-list (map make-quaternion quaternions)))
+    (if (null? (cddr q-list)) ;check to see if it is only 2 items
+      (y (car q-list) (cadr q-list));if so, apply y (the function for two) to the 2 items
+       (y (apply y (reverse (cdr (reverse q-list)))) (car (reverse q-list))) ;if not, apply x (function for many) to all but last item, and then y (function for 2) them together
+       )))
+
 ; Not fully tested yet
 (define (quaternion-multiply . quaternions)
-  (let((q-list (map make-quaternion quaternions)))
-    (if (null? (cddr q-list)) 
-      (quaternion-multiply2 (car q-list) (cadr q-list))
-       (quaternion-multiply2 (apply quaternion-multiply (reverse (cdr (reverse q-list)))) (car q-list)) 
-       ))) 
+  (define (quaternion-multiply2  x1 x2)
+    (quaternion (apply + (list (* (quaternion-h x1) (quaternion-h x2))  (- (* (quaternion-i x1) (quaternion-i x2))) (- (* (quaternion-j x1) (quaternion-j x2))) (- (* (quaternion-k x1) (quaternion-k x2))))) ;h
+                (apply + (list (* (quaternion-h x1) (quaternion-i x2))  (*    (quaternion-i x1) (quaternion-h x2))  (*    (quaternion-j x1) (quaternion-k x2))  (- (* (quaternion-k x1) (quaternion-j x2)))));i
+                (apply + (list (* (quaternion-h x1) (quaternion-j x2))  (- (* (quaternion-i x1) (quaternion-k x2))) (*    (quaternion-j x1) (quaternion-h x2))  (*    (quaternion-k x1) (quaternion-i x2)))) ;j
+                (apply + (list (* (quaternion-h x1) (quaternion-k x2))  (*    (quaternion-i x1) (quaternion-j x2))  (- (* (quaternion-j x1) (quaternion-i x2))) (*    (quaternion-k x1) (quaternion-h x2)))))) ;k
+  (seqOperater quaternion-multiply quaternion-multiply2 quaternions))
+  
 
-(define (quaternion-multiply2  x1 x2)
- (quaternion (apply + (list (* (quaternion-h x1) (quaternion-h x2))  (- (* (quaternion-i x1) (quaternion-i x2))) (- (* (quaternion-j x1) (quaternion-j x2))) (- (* (quaternion-k x1) (quaternion-k x2))))) ;h
-             (apply + (list (* (quaternion-h x1) (quaternion-i x2))  (*    (quaternion-i x1) (quaternion-h x2))  (*    (quaternion-j x1) (quaternion-k x2))  (- (* (quaternion-k x1) (quaternion-j x2)))));i
-             (apply + (list (* (quaternion-h x1) (quaternion-j x2))  (- (* (quaternion-i x1) (quaternion-k x2))) (*    (quaternion-j x1) (quaternion-h x2))  (*    (quaternion-k x1) (quaternion-i x2)))) ;j
-             (apply + (list (* (quaternion-h x1) (quaternion-k x2))  (*    (quaternion-i x1) (quaternion-j x2))  (- (* (quaternion-j x1) (quaternion-i x2))) (*    (quaternion-k x1) (quaternion-h x2)))))) ;k
+(define (quaternion-divide . quaternions) 
+  (define (quaternion-divide2 x1 x2)
+    (quaternion-multiply x1 (quaternion-reciprocal x2)))
+  (seqOperater quaternion-divide quaternion-divide2 quaternions))
 
-(define (quaternion-divide . quaternions)
-  "divide quaternions")
+
+(define (quaternion-reciprocal x)
+  (let ([norm2 (expt (quaternion-norm x) 2)])
+     (quaternion (/ (quaternion-h x)   norm2)
+                (/ (- (quaternion-i x) norm2))
+                (/ (- (quaternion-j x) norm2))
+                (/ (- (quaternion-k x) norm2)))
+   ))
  
 (define (quaternion-conjugate number)
   (let ((q (make-quaternion number)))
