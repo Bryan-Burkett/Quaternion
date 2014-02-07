@@ -13,6 +13,13 @@
               (quaternion x 0 0 0))
           (quaternion 0 0 0 0))))
 
+(define (unmake-quaternion x)
+  (if (and (quaternion? x) (= (quaternion-j x) (quaternion-k x) 0))
+           (if (= (quaternion-i x) 0)
+               (quaternion-h x)
+               (make-rectangular (quaternion-h x) (quaternion-i x)))
+           x))
+
 ; Take any number of quaternions, real numbers, and complex numbers and return the sum as a quaternion struct
 (define (quaternion-add . quaternions)
   (let ((quaternion-list (map make-quaternion quaternions)))
@@ -54,16 +61,15 @@
                 (- (quaternion-j q))
                 (- (quaternion-k q)))))
 
+; It initially looked like the magnitude was the norm^2, but wikipedia and
+; wolfram alpha and math major friend disagree.
+
 (define (quaternion-norm number)
   (let ((q (make-quaternion number)))
-    (+ (expt (quaternion-h q) 2)
+    (sqrt (+ (expt (quaternion-h q) 2)
        (expt (quaternion-i q) 2)
        (expt (quaternion-j q) 2)
-       (expt (quaternion-k q) 2))))
-
-(define (quaternion-magnitude number)
-  (let ((q (make-quaternion number)))
-    (sqrt (quaternion-norm q))))
+       (expt (quaternion-k q) 2)))))
 
 (define (quaternion-exp q)
   "e^q")
@@ -80,8 +86,13 @@
 (define (quaternion-expt quaterion1 quaternion2)
   "quaternion1 ^ quaternion2")
 
-(define (quaternion-equal quaternion1 quaternion2)
-  "are q1 and q2 equal")
+; Returns if the numbers are equivalent, even if one is quaternion and one is real or complex
+(define (quaternion-equal number1 number2)
+  (let ((quaternion1 (make-quaternion number1)) (quaternion2 (make-quaternion number2)))
+  (and (= (quaternion-h quaternion1) (quaternion-h quaternion2))
+       (= (quaternion-i quaternion1) (quaternion-i quaternion2))
+       (= (quaternion-j quaternion1) (quaternion-j quaternion2))
+       (= (quaternion-k quaternion1) (quaternion-k quaternion2)))))
 
 ; testing
 
