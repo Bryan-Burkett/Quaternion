@@ -29,26 +29,20 @@
                 (apply - (map quaternion-j quaternion-list))
                 (apply - (map quaternion-k quaternion-list)))))
 
-; THIS FUNCTION CURRENTLY RETURNS THE WRONG ANSWER - GO WITH AARON'S
-(define (quaternion-multiply . quaternions)
-  (define (multiply-two-quaternions quaternion1 quaternion2)
-    (quaternion (- (* (quaternion-h quaternion1) (quaternion-h quaternion2))
-                   (* (quaternion-i quaternion1) (quaternion-i quaternion2))
-                   (* (quaternion-j quaternion1) (quaternion-j quaternion2))
-                   (* (quaternion-k quaternion1) (quaternion-k quaternion2)))
-                (+ (* (quaternion-h quaternion1) (quaternion-i quaternion2))
-                   (* (quaternion-i quaternion1) (quaternion-h quaternion2))
-                   (* (quaternion-j quaternion1) (quaternion-k quaternion2))
-                   (- (* (quaternion-k quaternion1) (quaternion-j quaternion2))))
-                (+ (* (quaternion-h quaternion1) (quaternion-j quaternion2))
-                   (* (quaternion-j quaternion1) (quaternion-h quaternion2))
-                   (* (quaternion-k quaternion1) (quaternion-i quaternion2))
-                   (- (* (quaternion-i quaternion1) (quaternion-k quaternion2))))
-                (+ (* (quaternion-h quaternion1) (quaternion-k quaternion2))
-                   (* (quaternion-k quaternion1) (quaternion-h quaternion2))
-                   (* (quaternion-i quaternion1) (quaternion-j quaternion2))
-                   (- (* (quaternion-j quaternion1) (quaternion-i quaternion2))))))
-  (foldl multiply-two-quaternions (car quaternions) (cdr quaternions)))
+; Not fully tested yet
+(define (multiply . quaternions)
+  (let((q-list (map make-quaternion quaternions)))
+    (if (null? (cddr q-list)) 
+      (multiply2 (car q-list) (cadr q-list))
+       (multiply2 (apply multiply (reverse (cdr (reverse q-list)))) (car q-list)) 
+       ))) 
+
+(define (multiply2  x1 x2)
+ (quaternion (apply - (list (- (* (quaternion-h x1) (quaternion-h x2))) (*    (quaternion-i x1) (quaternion-i x2))  (*    (quaternion-j x1) (quaternion-j x2))  (*    (quaternion-k x1) (quaternion-k x2)))) ;h
+             (apply + (list (*    (quaternion-h x1) (quaternion-i x2))  (*    (quaternion-i x1) (quaternion-h x2))  (*    (quaternion-j x1) (quaternion-k x2))  (- (* (quaternion-k x1) (quaternion-j x2)))));i
+             (apply + (list (*    (quaternion-h x1) (quaternion-j x2))  (- (* (quaternion-i x1) (quaternion-k x2))) (*    (quaternion-j x1) (quaternion-h x2))  (*    (quaternion-k x1) (quaternion-i x2)))) ;j
+             (apply + (list (*    (quaternion-h x1) (quaternion-k x2))  (*    (quaternion-i x1) (quaternion-j x2))  (- (* (quaternion-j x1) (quaternion-i x2))) (*    (quaternion-k x1) (quaternion-h x2)))))) ;k
+
 
 (define (quaternion-divide . quaternions)
   "divide quaternions")
