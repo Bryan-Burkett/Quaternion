@@ -123,8 +123,19 @@
 ; I got the same answer working it out with a calculator using the same equation, but haven't found another way to check it.
 ; (quaternion-exp 3+4i) returns (quaternion -13.128783081462158 -15.200784463067954 0 0), wolfram alpha gives the same answer
 
-(define (quaternion-log q)
-  "logarithm of q")
+; Returns the natural logarithm (base e) of a number
+; Uses function ln(||q||) + v/||v|| * arccos(a/||q||) where a is the scalar part, v is the vector part
+(define (quaternion-log number)
+  (let ((q (make-quaternion number))
+        (a (scalar-part (make-quaternion number)))
+        (v (vector-part (make-quaternion number))))
+    (if (real? number)
+        (log number)
+        (quaternion-add (log (quaternion-norm q)) (quaternion-multiply (quaternion-unit v) (acos (/ a (quaternion-norm q))))))))
+; Tested:
+; (quaternion-log 2) returns 0.6931471805599453
+; (quaternion-log 3+4i) returns (quaternion 1.6094379124341003 0.9272952180016123 0 0), verified by wolfram alpha
+; (quaternion-log (quaternion 1 2 3 4)) returns (quaternion 1.7005986908310777 0.5151902926640851 0.7727854389961277 1.0303805853281702) not verified
 
 (define (quaternion-sin q)
   "sin of q")
