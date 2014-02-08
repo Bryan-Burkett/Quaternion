@@ -20,6 +20,24 @@
                (make-rectangular (quaternion-h x) (quaternion-i x)))
            x))
 
+; Should operations like these follow the naming convention? quaternion-scalar-part seems wordy
+; Returns the real part of a quaternion or complex number
+; For a quaternion a+bi+cj+dk this returns a
+(define (scalar-part number)
+  (let ((q (make-quaternion number)))
+    (quaternion-h q)))
+
+; Returns the vector part of a number
+; For a quaternion a+bi+cj+dk, this returns bi+cj+dk
+(define (vector-part number)
+  (let ((q (make-quaternion number)))
+    (quaternion-subtract q (scalar-part q))))
+
+; Because scalar-part and quaternion-subtract use make-quaternion, this could also be defined
+(define (vector-part-alternate number)
+  (quaternion-subtract number (scalar-part number)))
+; but for consistency I figure the first form is better?
+
 ; Take any number of quaternions, real numbers, and complex numbers and return the sum as a quaternion struct
 (define (quaternion-add . quaternions)
   (let ((quaternion-list (map make-quaternion quaternions)))
@@ -57,15 +75,18 @@
   (define (quaternion-divide2 x1 x2)
     (quaternion-multiply x1 (quaternion-reciprocal x2)))
   (seqOperater quaternion-divide quaternion-divide2 quaternions))
-
+; Tested: (quaternion-divide (quaternion 2 4 6 8) 2) returns (quaternion 1 2 3 4)
+; (quaternion-divide (quaternion 2 4 6 8) (quaternion 1 2 3 4)) returns (quaternion 2.0 0.0 0.0 -5.551115123125783e-17)
 
 (define (quaternion-reciprocal x)
   (let ([norm2 (expt (quaternion-norm x) 2)])
      (quaternion (/ (quaternion-h x)   norm2)
-                (/ (- (quaternion-i x) norm2))
-                (/ (- (quaternion-j x) norm2))
-                (/ (- (quaternion-k x) norm2)))
+                (/ (- (quaternion-i x)) norm2)
+                (/ (- (quaternion-j x)) norm2)
+                (/ (- (quaternion-k x)) norm2))
    ))
+; Tested: (quaternion-reciprocal (quaternion 1 2 3 4)) returns (quaternion 0.03333333333333333 -0.06666666666666667 -0.1 -0.13333333333333333)
+;     verified by worlfram alpha
  
 (define (quaternion-conjugate number)
   (let ((q (make-quaternion number)))
@@ -74,9 +95,6 @@
                 (- (quaternion-j q))
                 (- (quaternion-k q)))))
 
-; It initially looked like the magnitude was the norm^2, but wikipedia and
-; wolfram alpha and math major friend disagree.
-
 (define (quaternion-norm number)
   (let ((q (make-quaternion number)))
     (sqrt (+ (expt (quaternion-h q) 2)
@@ -84,8 +102,26 @@
        (expt (quaternion-j q) 2)
        (expt (quaternion-k q) 2)))))
 
-(define (quaternion-exp q)
-  "e^q")
+(define (quaternion-unit number)
+  (let ((q (make-quaternion number)))
+    (quaternion-divide q (quaternion-norm q))))
+
+; Returns e^number, for a real, complex, or quaternion value
+; Uses the equation e^a * (cos(||v||) + v/||v|| * sin(||v||)) where a is the scalar part, v is the vector part
+; When the number is real, the equation divides by zero because the norm of the vector part is 0, so
+; we have to check for that case.
+(define (quaternion-exp number)
+  (let ((a (scalar-part (make-quaternion number)))
+        (v (vector-part (make-quaternion number))))
+    (if (real? number)
+        (exp number)
+        (quaternion-multiply (exp a)
+                             (quaternion-add (cos (quaternion-norm v))
+                                             (quaternion-multiply (quaternion-divide v (quaternion-norm v))
+                                                                  (sin (quaternion-norm v))))))))
+; Tested: (quaternion-exp (quaternion 1 2 3 4)) returns (quaternion 1.6939227236832994 -0.7895596245415588 -1.184339436812338 -1.5791192490831176)
+; I got the same answer working it out with a calculator using the same equation, but haven't found another way to check it.
+; (quaternion-exp 3+4i) returns (quaternion -13.128783081462158 -15.200784463067954 0 0), wolfram alpha gives the same answer
 
 (define (quaternion-log q)
   "logarithm of q")
@@ -106,11 +142,3 @@
        (= (quaternion-i quaternion1) (quaternion-i quaternion2))
        (= (quaternion-j quaternion1) (quaternion-j quaternion2))
        (= (quaternion-k quaternion1) (quaternion-k quaternion2)))))
-
-; testing
-
-(define q1 (quaternion 5 4 3 2))
-(define q2 (quaternion 4 5 6 7))
-(define q3 (quaternion 3 4 5 6))
-(quaternion-add q1 q2 q3)
-(quaternion-multiply q1 q2)
