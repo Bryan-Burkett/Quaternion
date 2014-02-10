@@ -143,8 +143,10 @@
 (define (quaternion-cos q)
   "cos of q")
 
-(define (quaternion-expt quaterion1 quaternion2)
-  "quaternion1 ^ quaternion2")
+;since we alread had (exp) and (log) defined, I just turned x^y into e^(y*log(x))
+(define (quaternion-expt root power)
+  (quaternion-exp (quaternion-multiply power (quaternion-log root)))
+)
 
 ; Returns if the numbers are equivalent, even if one is quaternion and one is real or complex
 (define (quaternion-equal number1 number2)
