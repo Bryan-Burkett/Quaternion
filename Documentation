@@ -33,3 +33,25 @@ This is for the documentation and programming team.
               |`   _.-'`t-'`"-.,__.'
               `'-'`/;;  | |   \ mx
                   ;;;  ,' |    `
+
+Quaternions
+Scalar-part
+More info
+(scalar-part q) ->  number?
+Q: number?
+Takes a quaternion,  complex number  or number and returns the real part.
+Examples:
+| > (define q (quaternion 1 2 3 4))
+|> (scalar-part q)
+|1
+
+
+Vector-Part
+More info
+(vector part q) -> quaternion?
+q : number?
+
+Takes a quaternion and returns a quaternion with real part 0;
+| > (define q (quaternion 1 2 3 4))
+| > (vector-part q)
+| (quaternion 0 2 3 4)
