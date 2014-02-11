@@ -137,11 +137,30 @@
 ; (quaternion-log 3+4i) returns (quaternion 1.6094379124341003 0.9272952180016123 0 0), verified by wolfram alpha
 ; (quaternion-log (quaternion 1 2 3 4)) returns (quaternion 1.7005986908310777 0.5151902926640851 0.7727854389961277 1.0303805853281702) not verified
 
-(define (quaternion-sin q)
-  "sin of q")
+(define (quaternion-cos myquaternion) 
+  (define (quaternion-cos myQuaternion n);n is the max terms 
+    (let ((q (make-quaternion myQuaternion)))
+      (if (eq? n 0) 1
+          (quaternion-add (quaternion-divide
+                           (quaternion-multiply (expt -1 n) (quaternion-expt q (* 2 n)))
+                           (factorial (* 2 n))) (quaternion-cos q (- n 1))))))
+  (define myPrecision 45) (quaternion-cos myquaternion myPrecision))
 
-(define (quaternion-cos q)
-  "cos of q")
+(define (quaternion-sin myquaternion) 
+  (define (quaternion-sin myQuaternion n);n is the max terms 
+    (let ((q (make-quaternion myQuaternion)))
+      (if (eq? n 1) q
+          (quaternion-add (quaternion-divide
+                           (quaternion-multiply (expt -1 (- n 1)) (quaternion-expt q (- (* 2 n) 1)))
+                           (factorial (- (* 2 n) 1))) (quaternion-sin q (- n 1))))))
+  (define myPrecision 45) (quaternion-sin myquaternion myPrecision))
+
+;(define (degToRad q)
+  ;(/ (* pi q) 180))
+
+(define (factorial q)
+  (if (eq? q 1) 1 
+      (* q (factorial (- q 1)))))
 
 ;since we alread had (exp) and (log) defined, I just turned x^y into e^(y*log(x))
 (define (quaternion-expt root power)
