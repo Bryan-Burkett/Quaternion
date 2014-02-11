@@ -21,7 +21,8 @@
            x))
 
 ; Should operations like these follow the naming convention? quaternion-scalar-part seems wordy
-; Returns the real part of a quaternion or complex number
+; Returns the real part of a quaternion or complex number 
+; Should this be called real part?
 ; For a quaternion a+bi+cj+dk this returns a
 (define (scalar-part number)
   (let ((q (make-quaternion number)))
