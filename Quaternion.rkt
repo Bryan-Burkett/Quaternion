@@ -146,6 +146,20 @@
                            (factorial (* 2 n))) (quaternion-cos q (- n 1))))))
   (define myPrecision 45) (quaternion-cos myquaternion myPrecision))
 
+; Why use define instead of providing 45 as an argument? Also, using (let ((q (make-quaternion myQuaternion))) ...)
+; means make-quaternion needs to be called every time quaternion-cos is called.
+; Using the same name for the recursive function works, but not because of operator overloading- if you try to call
+; quaternion-cos from inside quaternion-cos with just 1 argument, you'll get an arity mismatch.
+
+(define (quaternion-cos-alternate number)
+  (define (taylor-cos x terms)
+      (if (eq? terms 0) 1
+          (quaternion-add (quaternion-divide
+                           (quaternion-multiply (expt -1 terms) (quaternion-expt x (* 2 terms)))
+                           (factorial (* 2 terms))) (taylor-cos x (- terms 1)))))
+  (taylor-cos (make-quaternion number) 45))
+; tested, these get the same results as quaternion-sin and quaternion-cos
+
 (define (quaternion-sin myquaternion) 
   (define (quaternion-sin myQuaternion n);n is the max terms 
     (let ((q (make-quaternion myQuaternion)))
@@ -155,11 +169,20 @@
                            (factorial (- (* 2 n) 1))) (quaternion-sin q (- n 1))))))
   (define myPrecision 45) (quaternion-sin myquaternion myPrecision))
 
+(define (quaternion-sin-alternate number)
+  (define (taylor-sin x terms)
+    (if (eq? terms 1) x
+          (quaternion-add (quaternion-divide
+                           (quaternion-multiply (expt -1 (- terms 1)) (quaternion-expt x (- (* 2 terms) 1)))
+                           (factorial (- (* 2 terms) 1))) (taylor-sin x (- terms 1)))))
+  (taylor-sin (make-quaternion number) 45))
+; tested, these get the same results as quaternion-sin and quaternion-cos
+
 ;(define (degToRad q)
   ;(/ (* pi q) 180))
 
 (define (factorial q)
-  (if (eq? q 1) 1 
+  (if (eq? q 0) 1 
       (* q (factorial (- q 1)))))
 
 ;since we alread had (exp) and (log) defined, I just turned x^y into e^(y*log(x))
