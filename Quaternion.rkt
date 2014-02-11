@@ -32,7 +32,7 @@
 ; For a quaternion a+bi+cj+dk, this returns bi+cj+dk
 (define (vector-part number)
   (let ((q (make-quaternion number)))
-    (quaternion-subtract q (scalar-part q))))
+    (quaternion-subtract q (scalar-part q)))) ;Should this return a vector? a quaternion with a real part 0 is different from a vector
 
 ; Because scalar-part and quaternion-subtract use make-quaternion, this could also be defined
 (define (vector-part-alternate number)
