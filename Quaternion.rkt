@@ -145,8 +145,16 @@
 
 ;since we alread had (exp) and (log) defined, I just turned x^y into e^(y*log(x))
 (define (quaternion-expt root power)
-  (quaternion-exp (quaternion-multiply power (quaternion-log root)))
-)
+  (let ((r (make-quaternion root))
+        (p (make-quaternion power))
+        (a (scalar-part (make-quaternion root)))
+        (v (vector-part (make-quaternion root))))
+    (cond [(and (quaternion-equal (quaternion 0 0 0 0) v)(quaternion-equal p (scalar-part p))) (make-quaternion (expt a (scalar-part p)))];just a scalar to a scalar power
+          [(quaternion-equal (quaternion 0 0 0 0) p)     (quaternion 1 0 0 0)]; power is the zero quaternion, outputs scalar 1
+          [(quaternion-equal (quaternion 0 0 0 0) r)     (quaternion 0 0 0 0)]; root is the zero quaternion, outputs scalar 0
+          [(quaternion-equal (quaternion 0 0 0 0) v)     (quaternion-exp (quaternion-multiply power (log a)))]; root is a scalar quaternion and power is not
+          [ else                                         (quaternion-exp (quaternion-multiply power (quaternion-log root)))])))
+
 
 ; Returns if the numbers are equivalent, even if one is quaternion and one is real or complex
 (define (quaternion-equal number1 number2)
