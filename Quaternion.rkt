@@ -1,5 +1,9 @@
 #lang racket
  
+(provide (rename-out [quaternion-add +]
+                     [quaternion-subtract -])
+         (struct-out quaternion))
+ 
 (struct quaternion (h i j k) #:inspector #f)
 
 ; This function takes a real, complex, or quaternion number as input, and returns a quaternion with the equivalent value.
@@ -41,19 +45,23 @@
 
 ; Take any number of quaternions, real numbers, and complex numbers and return the sum as a quaternion struct
 (define (quaternion-add . quaternions)
+  (if (ormap quaternion? quaternions)
   (let ((quaternion-list (map make-quaternion quaternions)))
     (quaternion (apply + (map quaternion-h quaternion-list))
                 (apply + (map quaternion-i quaternion-list))
                 (apply + (map quaternion-j quaternion-list))
-                (apply + (map quaternion-k quaternion-list)))))
+                (apply + (map quaternion-k quaternion-list))))
+   (apply + quaternions))
  
-; Take any number of quaternions, real numbers, and complex numbers and return the sum as a quaternion struct
+; Take any number of quaternions, real numbers, and complex numbers and return the difference as a quaternion struct
 (define (quaternion-subtract . quaternions)
+  (if (ormap quaternion? quaternions)
   (let ((quaternion-list (map make-quaternion quaternions)))
     (quaternion (apply - (map quaternion-h quaternion-list))
                 (apply - (map quaternion-i quaternion-list))
                 (apply - (map quaternion-j quaternion-list))
-                (apply - (map quaternion-k quaternion-list)))))
+                (apply - (map quaternion-k quaternion-list))))
+   (apply - quaternions))
 
 (define (seqOperater x y quaternions)
   (let((q-list (map make-quaternion quaternions)))
