@@ -13,7 +13,7 @@
 @section{First Section}
 @racketblock[(define example (display "This is an example"))]
 @defproc[(make-Quaternion [x (number?)]) quaternion?]{Takes any number and returns it as a Quaternion 
-                                                      @codeSblock|{
+                                                      @codeblock|{
                                                                   (make-quaternion 3)
                                                                   (quaternion 3 0 0 0)
                                                                   (make-quaternion 3+2i)
