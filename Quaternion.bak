@@ -4,7 +4,7 @@
                      [quaternion-subtract -])
          (struct-out quaternion))
  
-(struct quaternion number (h i j k) #:inspector #f)
+(struct quaternion (h i j k) #:inspector #f)
 
 ; This function takes a real, complex, or quaternion number as input, and returns a quaternion with the equivalent value.
 ; The arithmetic functions use (make-quaternion parameter) so they can handle real and complex paramters
@@ -51,7 +51,7 @@
                 (apply + (map quaternion-i quaternion-list))
                 (apply + (map quaternion-j quaternion-list))
                 (apply + (map quaternion-k quaternion-list))))
-   (apply + quaternions)))
+   (apply + quaternions))
  
 ; Take any number of quaternions, real numbers, and complex numbers and return the difference as a quaternion struct
 (define (quaternion-subtract . quaternions)
@@ -61,7 +61,7 @@
                 (apply - (map quaternion-i quaternion-list))
                 (apply - (map quaternion-j quaternion-list))
                 (apply - (map quaternion-k quaternion-list))))
-   (apply - quaternions)))
+   (apply - quaternions))
 
 (define (seqOperater x y quaternions)
   (let((q-list (map make-quaternion quaternions)))
