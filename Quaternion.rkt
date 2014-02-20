@@ -4,7 +4,7 @@
                      [quaternion-subtract -])
          (struct-out quaternion))
  
-(struct quaternion number (h i j k) #:inspector #f)
+(struct quaternion (h i j k) #:inspector #f)
 
 ; This function takes a real, complex, or quaternion number as input, and returns a quaternion with the equivalent value.
 ; The arithmetic functions use (make-quaternion parameter) so they can handle real and complex paramters
