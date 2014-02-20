@@ -1,4 +1,3 @@
-
 (require "OldOps.rkt")
 (define (+ . x)
   (if (ormap quaternion? x) (apply quaternion-add x) (apply old+ x)))
@@ -15,9 +14,9 @@
 (define (exp x)
   (if (quaternion? x) (quaternion-exp x) (oldexp x)))
 (define (expt x y)
-  (if (ormap quaternion? x y) (quaternion-expt x y) (oldexpt x y)))
+  (if (ormap quaternion? (list x y)) (quaternion-expt x y) (oldexpt x y)))
 (define (eq? x y)
-  (if (ormap quaternion? x y) (quaternion-equal x y) (oldeq? x y)))
+  (if (ormap quaternion? (list x y)) (quaternion-equal x y) (oldeq? x y)))
  ;renames all the operators.
  
 (provide (rename-out [quaternion-add +]
