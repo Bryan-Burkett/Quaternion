@@ -1,5 +1,13 @@
 This is for the support team.
 
+ #:guard (lambda (name type-name)
+                    (cond
+                      [(string? name) name]
+                      [(symbol? name) (symbol->string name)]
+                      [else (error type-name
+                                   "bad name: ~e"
+                                   name)])))
+
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
