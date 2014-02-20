@@ -1,4 +1,24 @@
-#lang racket
+
+(require "OldOps.rkt")
+(define (+ . x)
+  (if (ormap quaternion? x) (apply quaternion-add x) (apply old+ x)))
+(define (- . x)
+  (if (ormap quaternion? x) (apply quaternion-subtract x) (apply old- x)))
+(define (* . x)
+  (if (ormap quaternion? x) (apply quaternion-multiply x) (apply old* x)))
+(define (/ . x)
+  (if (ormap quaternion? x) (apply quaternion-divide x) (apply old/ x)))
+(define (cos x)
+  (if (quaternion? x) (quaternion-cos x) (oldcos x)))
+(define (sin x)
+  (if (quaternion? x) (quaternion-sin x) (oldsin x)))
+(define (exp x)
+  (if (quaternion? x) (quaternion-exp x) (oldexp x)))
+(define (expt x y)
+  (if (ormap quaternion? x y) (quaternion-expt x y) (oldexpt x y)))
+(define (eq? x y)
+  (if (ormap quaternion? x y) (quaternion-equal x y) (oldeq? x y)))
+ ;renames all the operators.
  
 (provide (rename-out [quaternion-add +]
                      [quaternion-subtract -])
