@@ -25,6 +25,13 @@
  
 (struct quaternion (h i j k) #:inspector #f)
 
+;This is an error checking mechanism for the structure.  If an invalid input is entered, such as a string in the coefficient
+;of the quaternion, an error will be thrown.
+#:guard (lambda (h i j k type-wrong-format)
+  (unless (andmap real? (list h i j k)) (error type-wrong-format "Invalid input!")) (values h i j k)))
+
+
+
 ; This function takes a real, complex, or quaternion number as input, and returns a quaternion with the equivalent value.
 ; The arithmetic functions use (make-quaternion parameter) so they can handle real and complex paramters
 (define (make-quaternion x)
