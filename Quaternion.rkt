@@ -23,7 +23,7 @@
                      [quaternion-subtract -])
          (struct-out quaternion))
  
-(struct quaternion (h i j k) #:inspector #f)
+(struct quaternion (h i j k) #:inspector #f
 
 ;This is an error checking mechanism for the structure.  If an invalid input is entered, such as a string in the coefficient
 ;of the quaternion, an error will be thrown.
