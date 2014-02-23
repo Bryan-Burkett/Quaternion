@@ -20,9 +20,7 @@
   (if (ormap quaternion? (list x y)) (quaternion-equal x y) (oldeq? x y)))
  ;renames all the operators.
  
-(provide (rename-out [quaternion-add +]
-                     [quaternion-subtract -])
-         (struct-out quaternion))
+(provide quaternion + - * / cos sin exp expt eq?)
  
 (struct quaternion (h i j k) #:inspector #f
 
