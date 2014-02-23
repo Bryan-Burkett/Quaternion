@@ -1,3 +1,4 @@
+#lang racket
 (require "OldOps.rkt")
 (define (+ . x)
   (if (ormap quaternion? x) (apply quaternion-add x) (apply old+ x)))
