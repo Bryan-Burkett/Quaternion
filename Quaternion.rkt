@@ -105,10 +105,12 @@
   (seqOperater quaternion-multiply quaternion-multiply2 quaternions))
   
 
-(define (quaternion-divide . quaternions) 
+(define (quaternion-divide . quaternions)  
   (define (quaternion-divide2 x1 x2)
     (quaternion-multiply x1 (quaternion-reciprocal x2)))
-  (seqOperater quaternion-divide quaternion-divide2 quaternions))
+  (if (= (length quaternions) 1) 
+      (quaternion-reciprocal (list-ref quaternions 1))
+  (seqOperater quaternion-divide quaternion-divide2 quaternions)))
 ; Tested: (quaternion-divide (quaternion 2 4 6 8) 2) returns (quaternion 1 2 3 4)
 ; (quaternion-divide (quaternion 2 4 6 8) (quaternion 1 2 3 4)) returns (quaternion 2.0 0.0 0.0 -5.551115123125783e-17)
 
