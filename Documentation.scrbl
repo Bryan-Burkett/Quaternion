@@ -12,7 +12,14 @@
                            (list "Dawson Conway" "Jonathan Coup" "Aaron Cowdrey" "Thomas Ford"))]}
 
 @section{Quaternion}
-@defstruct[quaternion ([h number?] [i number?] [j number?] [k number?])]{A structure to represent a quaternion. @italic{h} represents the real part, @italic{i}, @italic{j} and @italic{5} represent the imaginary parts.}
+@defstruct[quaternion ([h real?] [i real?] [j real?] [k real?])]{A structure to represent a quaternion. @italic{h} represents the real part, @italic{i}, @italic{j} and @italic{5} represent the imaginary parts.}
+
+@defproc[(eq? [x quaternion?/number?][y quaternion?/number?]) quaternion?/number?]{Returns @italic{true} if the two arguments are equevilent mathematically, otherwise returns false. If none of the arguments are quaternions, uses racket's default eq? function. } 
+                                                      @codeblock|{
+                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
+                                                                  (quaternion 1 5 38 15)}|}
+
+
 
 @section{Basic Operators}
 @subsection{Addition}
@@ -40,8 +47,32 @@
                                                                   >(- (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
                                                                   (quaternion 3 5 30 -17)}|}
 
-@subsection{make-Quaternion}
-@defproc[(make-Quaternion [x quaternion/number?]) quaternion?]{Takes any number and returns it as a Quaternion 
+@section{Advanced Operators}
+
+@subsection{Exponentiation}
+@defproc[(exp [x quaternion?/number?]) quaternion?/number?]{Returns the e to the power of @italic{x}. If @italic{x} is not a quaternion, uses racket's default exp function.
+                                                      @codeblock|{
+                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
+                                                                  (quaternion 1 5 38 15)}|}
+@defproc[(exp [x quaternion?/number?][y quaternion?/number?]) quaternion?/number?]{Returns the @italic{x} to the power of @italic{y}. If if neither argument is a quaternion, uses racket's default expt function.
+                                                      @codeblock|{
+                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
+                                                                  (quaternion 1 5 38 15)}|}
+
+@subsection{Sine}
+@defproc[(sin [x quaternion?/number?]) quaternion?/number?]{Returns the sine of @italic{x}. If @italic{x} is not a quaternion, uses racket's default sin function.
+                                                      @codeblock|{
+                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
+                                                                  (quaternion 1 5 38 15)}|}
+
+@subsection{Cosine}
+@defproc[(cos [x quaternion?/number?]) quaternion?/number?]{Returns the cosine of @italic{x}. If @italic{x} is not a quaternion, uses racket's default cos function.
+                                                      @codeblock|{
+                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
+                                                                  (quaternion 1 5 38 15)}|}
+
+@subsection{make-quaternion}
+@defproc[(make-quaternion [x quaternion/number?]) quaternion?]{Takes any number and returns it as a Quaternion 
                                                       @codeblock|{
                                                                   >(make-quaternion 3)
                                                                   (quaternion 3 0 0 0)
