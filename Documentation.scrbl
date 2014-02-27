@@ -12,6 +12,9 @@
                      (list (list "Austin Applegate" "Justin Arnspiger" "Evan Bissell" "Bryan Burkett")
                            (list "Miguel Calderon Mejia" "Eric Chanthorabout" "Quin Chen" "Tim Clark")
                            (list "Dawson Conway" "Jonathan Coup" "Aaron Cowdrey" "Thomas Ford"))]}
+                           
+@centered{@larger{@bold{This portion of the documentatino is for Users and Programmers}}}
+@centered{(below is an additional section explaining the private functions)}
 
 @section{Quaternion}
 @defstruct[quaternion ([h real?] [i real?] [j real?] [k real?])]{A structure to represent a quaternion. @italic{h} represents the real part, @italic{i}, @italic{j} and @italic{k} represent the imaginary parts.}
@@ -72,13 +75,13 @@
 
 @defproc[(sin [x quaternion?/number?]) quaternion?/number?]{Returns the sine of @italic{x}. If @italic{x} is not a quaternion, uses racket's default sin procedure.
                                                       @codeblock|{
-                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
-                                                                  (quaternion 1 5 38 15)}|}
+                                                                  > (sin (quaternion 1 2 3 4))
+                                                                  (quaternion 91.78371578403466 21.886486853029254 32.82973027954388 43.77297370605851)}|}
 
 
 @defproc[(cos [x quaternion?/number?]) quaternion?/number?]{Returns the cosine of @italic{x}. If @italic{x} is not a quaternion, uses racket's default cos procedure.
                                                       @codeblock|{
-                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
-                                                                  (quaternion 1 5 38 15)}|}
+                                                                  > (cos (quaternion 1 2 3 4))
+                                                                  (quaternion 58.933646167944076 -34.08618369046561 -51.12927553569841 -68.17236738093122)}|}
 
 
