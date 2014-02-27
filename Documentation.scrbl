@@ -12,27 +12,33 @@
                      (list (list "Austin Applegate" "Justin Arnspiger" "Evan Bissell" "Bryan Burkett")
                            (list "Miguel Calderon Mejia" "Eric Chanthorabout" "Quin Chen" "Tim Clark")
                            (list "Dawson Conway" "Jonathan Coup" "Aaron Cowdrey" "Thomas Ford"))]}
-                           
-@centered{@larger{@bold{This portion of the documentatino is for Users and Programmers}}}
-@centered{(below is an additional section explaining the private functions)}
 
 @section{Quaternion}
 @defstruct[quaternion ([h real?] [i real?] [j real?] [k real?])]{A structure to represent a quaternion. @italic{h} represents the real part, @italic{i}, @italic{j} and @italic{k} represent the imaginary parts.}
 
 @defproc[(eq? [x quaternion?/number?][y quaternion?/number?]) quaternion?/number?]{Returns @italic{true} if the two arguments are equevilent mathematically, otherwise returns false. If none of the arguments are quaternions, uses racket's default eq? function.  
                                                       @codeblock|{
-                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
-                                                                  (quaternion 1 5 38 15)}|}
+                                                                  >(eq? (quaternion 2 5 34 -1) (quaternion 2 5 34 -1))
+                                                                  #t
+                                                                  >(eq? (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
+                                                                  #f}|}
 @defproc[(scalar-part [x quaternion?/number?]) number?]{Returns the real part of the input as a real number.
                                                       @codeblock|{ 
-                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
-                                                                  (quaternion 1 5 38 15)}|}
+                                                                  >(scalar-part (quaternion 2 5 34 -1))
+                                                                  2}|}
 
 @defproc[(vector-part [x quaternion?/number?]) quaternion?]{Returns the imaginary part of the input as a quaternion with real part 0.
                                                       @codeblock|{
-                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
-                                                                  (quaternion 1 5 38 15)}|}
-@defproc[(conjugate [w quaternion?/number?])quaternion?/number?]{Returns the conjugate of @italic{w}. This is equivilent to (- (real-part w) (vector-part w))]. If none of the arguments are quaternions, uses rackets default conjugate procedure.}
+                                                                  >(vector-part (quaternion 2 5 34 -1))
+                                                                  (quaternion 0 5 34 -1)}|}
+@defproc[(conjugate [w quaternion?/number?])quaternion?/number?]{Returns the conjugate of @italic{w}. This is equivilent to (- (real-part w) (vector-part w))]. If none of the arguments are quaternions, uses rackets default conjugate procedure.
+                                                      @codeblock|{
+                                                                  >(conjugate (quaternion 2 5 34 -1))
+                                                                  (quaternion  2 -5 -34 1)}|}}
+
+@defproc[(norm [w quaternion?])number?]{Returns the norm of @italic{w}. This is the square root of the sum of the squares of each component of @italic{w}.}
+
+@defproc[(unit [w quaternion?])number?]{Returns the unit quaternion of @italic{w}. This is the quaternion divided by its norm.}
 
 @section{Basic Operators}
 
@@ -75,13 +81,13 @@
 
 @defproc[(sin [x quaternion?/number?]) quaternion?/number?]{Returns the sine of @italic{x}. If @italic{x} is not a quaternion, uses racket's default sin procedure.
                                                       @codeblock|{
-                                                                  > (sin (quaternion 1 2 3 4))
-                                                                  (quaternion 91.78371578403466 21.886486853029254 32.82973027954388 43.77297370605851)}|}
+                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
+                                                                  (quaternion 1 5 38 15)}|}
 
 
 @defproc[(cos [x quaternion?/number?]) quaternion?/number?]{Returns the cosine of @italic{x}. If @italic{x} is not a quaternion, uses racket's default cos procedure.
                                                       @codeblock|{
-                                                                  > (cos (quaternion 1 2 3 4))
-                                                                  (quaternion 58.933646167944076 -34.08618369046561 -51.12927553569841 -68.17236738093122)}|}
+                                                                  >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
+                                                                  (quaternion 1 5 38 15)}|}
 
 
