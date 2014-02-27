@@ -20,7 +20,7 @@
   (if (ormap quaternion? (list x y)) (quaternion-equal (make-quaternion x) (make-quaternion x)) (oldeq? x y)))
  ;renames all the operators.
  
-(provide quaternion + - * / cos sin exp expt eq?)
+(provide quaternion + - * / cos sin exp expt eq? scalar-part vector-part)
  
 (struct quaternion (h i j k) #:inspector #f
 
@@ -63,11 +63,6 @@
   (let ((q (make-quaternion number)))
     (quaternion-subtract q (scalar-part q)))) ;Should this return a vector? a quaternion with a real part 0 is different from a vector
 
-; Because scalar-part and quaternion-subtract use make-quaternion, this could also be defined
-(define (vector-part-alternate number)
-  (quaternion-subtract number (scalar-part number)))
-; but for consistency I figure the first form is better?
-
 ; Take any number of quaternions, real numbers, and complex numbers and return the sum as a quaternion struct
 (define (quaternion-add . quaternions)
   (if (ormap quaternion? quaternions)
@@ -95,15 +90,13 @@
        (y (apply y (reverse (cdr (reverse q-list)))) (car (reverse q-list))) ;if not, apply x (function for many) to all but last item, and then y (function for 2) them together
        )))
 
-; Not fully tested yet
 (define (quaternion-multiply . quaternions)
-  (define (quaternion-multiply2  x1 x2)
+  (define (quaternion-multiply2 x1 x2)
     (quaternion (apply + (list (* (quaternion-h x1) (quaternion-h x2))  (- (* (quaternion-i x1) (quaternion-i x2))) (- (* (quaternion-j x1) (quaternion-j x2))) (- (* (quaternion-k x1) (quaternion-k x2))))) ;h
                 (apply + (list (* (quaternion-h x1) (quaternion-i x2))  (*    (quaternion-i x1) (quaternion-h x2))  (*    (quaternion-j x1) (quaternion-k x2))  (- (* (quaternion-k x1) (quaternion-j x2)))));i
                 (apply + (list (* (quaternion-h x1) (quaternion-j x2))  (- (* (quaternion-i x1) (quaternion-k x2))) (*    (quaternion-j x1) (quaternion-h x2))  (*    (quaternion-k x1) (quaternion-i x2)))) ;j
                 (apply + (list (* (quaternion-h x1) (quaternion-k x2))  (*    (quaternion-i x1) (quaternion-j x2))  (- (* (quaternion-j x1) (quaternion-i x2))) (*    (quaternion-k x1) (quaternion-h x2)))))) ;k
-  (seqOperater quaternion-multiply quaternion-multiply2 quaternions))
-  
+  (foldr quaternion-multiply2 (quaternion 1 0 0 0) quaternions))
 
 (define (quaternion-divide . quaternions)  
   (define (quaternion-divide2 x1 x2)
@@ -173,46 +166,21 @@
 ; (quaternion-log 3+4i) returns (quaternion 1.6094379124341003 0.9272952180016123 0 0), verified by wolfram alpha
 ; (quaternion-log (quaternion 1 2 3 4)) returns (quaternion 1.7005986908310777 0.5151902926640851 0.7727854389961277 1.0303805853281702) not verified
 
-(define (quaternion-cos myquaternion) 
-  (define (quaternion-cos myQuaternion n);n is the max terms 
-    (let ((q (make-quaternion myQuaternion)))
-      (if (eq? n 0) 1
-          (quaternion-add (quaternion-divide
-                           (quaternion-multiply (expt -1 n) (quaternion-expt q (* 2 n)))
-                           (factorial (* 2 n))) (quaternion-cos q (- n 1))))))
-  (define myPrecision 45) (quaternion-cos myquaternion myPrecision))
-
-; Why use define instead of providing 45 as an argument? Also, using (let ((q (make-quaternion myQuaternion))) ...)
-; means make-quaternion needs to be called every time quaternion-cos is called.
-; Using the same name for the recursive function works, but not because of operator overloading- if you try to call
-; quaternion-cos from inside quaternion-cos with just 1 argument, you'll get an arity mismatch.
-
-(define (quaternion-cos-alternate number)
+(define (quaternion-cos number)
   (define (taylor-cos x terms)
       (if (eq? terms 0) 1
           (quaternion-add (quaternion-divide
                            (quaternion-multiply (expt -1 terms) (quaternion-expt x (* 2 terms)))
                            (factorial (* 2 terms))) (taylor-cos x (- terms 1)))))
   (taylor-cos (make-quaternion number) 45))
-; tested, these get the same results as quaternion-sin and quaternion-cos
 
-(define (quaternion-sin myquaternion) 
-  (define (quaternion-sin myQuaternion n);n is the max terms 
-    (let ((q (make-quaternion myQuaternion)))
-      (if (eq? n 1) q
-          (quaternion-add (quaternion-divide
-                           (quaternion-multiply (expt -1 (- n 1)) (quaternion-expt q (- (* 2 n) 1)))
-                           (factorial (- (* 2 n) 1))) (quaternion-sin q (- n 1))))))
-  (define myPrecision 45) (quaternion-sin myquaternion myPrecision))
-
-(define (quaternion-sin-alternate number)
+(define (quaternion-sin number)
   (define (taylor-sin x terms)
     (if (eq? terms 1) x
           (quaternion-add (quaternion-divide
                            (quaternion-multiply (expt -1 (- terms 1)) (quaternion-expt x (- (* 2 terms) 1)))
                            (factorial (- (* 2 terms) 1))) (taylor-sin x (- terms 1)))))
   (taylor-sin (make-quaternion number) 45))
-; tested, these get the same results as quaternion-sin and quaternion-cos
 
 ;(define (degToRad q)
   ;(/ (* pi q) 180))
