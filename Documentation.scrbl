@@ -13,7 +13,19 @@
                            (list "Miguel Calderon Mejia" "Eric Chanthorabout" "Quin Chen" "Tim Clark")
                            (list "Dawson Conway" "Jonathan Coup" "Aaron Cowdrey" "Thomas Ford"))]}
 
-@section{Quaternion}
+@section{Guide}
+
+@subsecion{Making a Quaternion}
+Quaternions are kdfja;dfa
+
+To create a quaternion in racket, type
+@codeblock|{
+            >(quaternion 1 2 3 4)
+            (quaternion 1 2 3 4)
+            }|
+This represents 
+
+@subsection{Quaternion}
 @defstruct[quaternion ([h real?] [i real?] [j real?] [k real?])]{A structure to represent a quaternion. @italic{h} represents the real part, @italic{i}, @italic{j} and @italic{k} represent the imaginary parts.}
 
 @defproc[(eq? [x quaternion?/number?][y quaternion?/number?]) quaternion?/number?]{Returns @italic{true} if the two arguments are equevilent mathematically, otherwise returns false. If none of the arguments are quaternions, uses racket's default eq? function.  
@@ -36,11 +48,16 @@
                                                                   >(conjugate (quaternion 2 5 34 -1))
                                                                   (quaternion  2 -5 -34 1)}|}}
 
-@defproc[(norm [w quaternion?])number?]{Returns the norm of @italic{w}. This is the square root of the sum of the squares of each component of @italic{w}.}
+@defproc[(norm [w quaternion?])number?]{@codeblock|{(define (quaternion-norm number)
+  (let ((q (make-quaternion number)))
+    (sqrt (+ (expt (quaternion-h q) 2)
+       (expt (quaternion-i q) 2)
+       (expt (quaternion-j q) 2)
+       (expt (quaternion-k q) 2)))))}| This take a quaternion as input. It squares each component of the quaternion, sums those values and returns the square root of that sum. }
 
 @defproc[(unit [w quaternion?])number?]{Returns the unit quaternion of @italic{w}. This is the quaternion divided by its norm.}
 
-@section{Basic Operators}
+@subsection{Basic Operators}
 
 @defproc[(+ [x quaternion?/number?]...) quaternion?/number?]{Returns the sum of all @italic{x}s, or for only one @italic{x} returns @italic{x}. If none of the arguments are quaternions, uses racket's default + procedure.
                                                       @codeblock|{
@@ -66,7 +83,7 @@
                                                                   >(- (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
                                                                   (quaternion 3 5 30 -17)}|}
 
-@section{Advanced Operators}
+@subsection{Advanced Operators}
 
 
 @defproc[(exp [x quaternion?/number?]) quaternion?/number?]{Returns the Euler's number to the power of @italic{x}. If @italic{x} is not a quaternion, uses racket's default exp procedure.
