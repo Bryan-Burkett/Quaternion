@@ -168,21 +168,6 @@
 ; (quaternion-log 3+4i) returns (quaternion 1.6094379124341003 0.9272952180016123 0 0), verified by wolfram alpha
 ; (quaternion-log (quaternion 1 2 3 4)) returns (quaternion 1.7005986908310777 0.5151902926640851 0.7727854389961277 1.0303805853281702) not verified
 
-(define (quaternion-cos number)
-  (define (taylor-cos x terms)
-      (if (eq? terms 0) 1
-          (quaternion-add (quaternion-divide
-                           (quaternion-multiply (expt -1 terms) (quaternion-expt x (* 2 terms)))
-                           (factorial (* 2 terms))) (taylor-cos x (- terms 1)))))
-  (taylor-cos (make-quaternion number) 45))
-
-(define (quaternion-sin number)
-  (define (taylor-sin x terms)
-    (if (eq? terms 1) x
-          (quaternion-add (quaternion-divide
-                           (quaternion-multiply (expt -1 (- terms 1)) (quaternion-expt x (- (* 2 terms) 1)))
-                           (factorial (- (* 2 terms) 1))) (taylor-sin x (- terms 1)))))
-  (taylor-sin (make-quaternion number) 45))
 
 ;(define (degToRad q)
   ;(/ (* pi q) 180))
@@ -211,3 +196,26 @@
        (= (quaternion-i quaternion1) (quaternion-i quaternion2))
        (= (quaternion-j quaternion1) (quaternion-j quaternion2))
        (= (quaternion-k quaternion1) (quaternion-k quaternion2)))))
+
+; New cos and sin functions using the new equations
+(define (quaternion-cos q)
+  (quaternion-divide (quaternion-add (quaternion-exp (quaternion-multiply q
+                                                                          (quaternion-divide (vector-part q)
+                                                                                             (quaternion-norm (vector-part q)))))
+                                     (quaternion-exp (quaternion-multiply -1
+                                                                          q
+                                                                          (quaternion-divide (vector-part q)
+                                                                                             (quaternion-norm (vector-part q))))))
+                     2))
+
+(define (quaternion-sin q)
+  (quaternion-divide (quaternion-subtract (quaternion-exp (quaternion-multiply q
+                                                                               (quaternion-divide (vector-part q)
+                                                                                                  (quaternion-norm (vector-part q)))))
+                                          (quaternion-exp (quaternion-multiply -1
+                                                                               q
+                                                                               (quaternion-divide (vector-part q)
+                                                                                             (quaternion-norm (vector-part q))))))
+                     (quaternion-multiply 2
+                                          (quaternion-divide (vector-part q)
+                                                             (quaternion-norm (vector-part q))))))
