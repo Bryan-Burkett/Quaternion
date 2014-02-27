@@ -9,6 +9,17 @@ This is for the support team.
                                    name)])))
 
 http://docs.racket-lang.org/reference/define-struct.html
+----------------------------------------------------------------------
+qreader notes:
+;(if (equal? AllButlastCharOfNext "") ;This is the instance that the term is a standalone i j or k
+ ;                     (if(equal? sign -1) -1           ;This assigns the minus sign when it is just -i -j or -k
+  ;                    1) 
+   ;                   (* sign (string->number AllButlastCharOfNext))))
+
+;It was found that input of a fraction with a one-digit denominator for any coefficient returns a contract error at (* sign (string->number AllButlastCharOfNext))))
+;This is because at for this input, AllButlastCharOfNext does not include the one-digit denominator, insteead just ending in /.
+;ie (Expression->Quaternion "112/5") causes AllButlastCharOfNext to be 112/ which returns #f for string->number.
+------------------------------------------------------------------------------
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::::-'    `-::::::::::::::::::
