@@ -35,7 +35,7 @@
   (if (ormap quaternion? (list x y)) (quaternion-equal x y) (oldeq? x y)))
  ;renames all the operators.
  
-(provide quaternion + - * / cos sin exp expt eq? scalar-part vector-part)
+(provide quaternion + - * / cos sin exp expt eq? scalar-part vector-part quaternion->string)
  
 (struct quaternion (h i j k) #:inspector #f
 
@@ -45,7 +45,16 @@
   (unless (andmap real? (list h i j k)) (error type-wrong-format "Invalid input!")) (values h i j k)))
 
 
-
+;Takes a quaternion and turns it into a string. Needed for qreader.rkt
+(define (quaternion->string quat)
+  (string-append 
+   "(quaternion " 
+   (number->string (quaternion-h quat)) " "
+   (number->string (quaternion-i quat)) " "
+   (number->string (quaternion-j quat)) " "
+   (number->string (quaternion-k quat)) ")"
+   ))
+   
 ; This function takes a real, complex, or quaternion number as input, and returns a quaternion with the equivalent value.
 ; The arithmetic functions use (make-quaternion parameter) so they can handle real and complex paramters
 (define (make-quaternion x)
