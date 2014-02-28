@@ -20,7 +20,7 @@
 
 (define (Expression->Quaternion s)
   (if (GoodExpression? s) 
-      (let ([myTerms (regexp-match* #rx"(((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]+[/][0-9]+)|([0-9]+))|[+-]" s)])
+      (let ([myTerms (regexp-match* #rx"(((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[ijk])|([0-9]+[/][0-9]+)|([0-9]+([.][0-9]*)?)|([0-9]+))|[+-]" s)])
         ;(define-values (myh myi myj myk) (values 0 0 0 0));;;my addition
         (define (addTerm terms h i j k)
           (if (empty? terms) (quaternion h i j k)
