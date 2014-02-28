@@ -12,9 +12,8 @@
                  [(andmap symbol? input) 
                   (print (eval (symbol->string (car input))))]   ;;;evaluates it
                  [(list? input) 
-                  (print (eval (car input)))];;;;;outputs to string                 ) 
-    ""
-              )
+                  (print (eval (car input)))];;;;;outputs to string 
+              ) 
   (printf "\n")
-   (do-verb))
+   (do-verb)))
   
