@@ -13,7 +13,7 @@
   (define oldexpt expt)
   (define oldeq? eq?))
   
-(require 'OldOps.rkt)
+(require 'OldOps)
 
 (define (+ . x)
   (if (ormap quaternion? x) (apply quaternion-add x) (apply old+ x)))
