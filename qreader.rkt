@@ -12,7 +12,7 @@
 (define (myRegExpSplit s) 
   (if (equal? (substring s 0 1) "-") (regexp-split #rx"[-+]" (substring s 1)) (regexp-split #rx"[-+]" s)))  ;Splits a string by "+" and "-" operaters
 (define (myRegexMatch s) (regexp-match termRegex s))                                                        ;Does s match termRegex
-(define termRegex #px"^(((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]+)|([0-9]+[/][0-9]+))$")    ;regex for a single term in expression
+(define termRegex #px"^(((([0-9]*([.][0-9]+)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]+[/][0-9]+)|([0-9]*([.][0-9]+)?))$")    ;regex for a single term in expression
 ;----------------------------------------------------------
 
 ;Turns any expression into a quaternion, in which each term is connected by a + or -, and the term is scalar or ends in i j k
@@ -20,7 +20,7 @@
 
 (define (Expression->Quaternion s)
   (if (GoodExpression? s) 
-      (let ([myTerms (regexp-match* #rx"(((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]+[/][0-9]+)|([0-9]+))|[+-]" s)])
+      (let ([myTerms (regexp-match* #rx"(((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]+[/][0-9]+)|([0-9]+([.][0-9]+)?))|[+-]" s)])
         ;(define-values (myh myi myj myk) (values 0 0 0 0));;;my addition
         (define (addTerm terms h i j k)
           (if (empty? terms) (quaternion h i j k)
