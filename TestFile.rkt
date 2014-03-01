@@ -9,3 +9,8 @@
  ;                     (if(equal? sign -1) -1           ;This assigns the minus sign when it is just -i -j or -k
   ;                    1) 
    ;                   (* sign (string->number AllButlastCharOfNext))))
+   
+   ;This generated an error for some reason:
+   ;>.05+.005j
+;. . .05+.005j: undefined;
+ ;cannot reference an identifier before its definition
