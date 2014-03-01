@@ -9,8 +9,47 @@
  ;                     (if(equal? sign -1) -1           ;This assigns the minus sign when it is just -i -j or -k
   ;                    1) 
    ;                   (* sign (string->number AllButlastCharOfNext))))
+   ;------------------------------------------------------------------------
+   
    
    ;This generated an error for some reason:
    ;>.05+.005j
 ;. . .05+.005j: undefined;
  ;cannot reference an identifier before its definition
+ 
+ ;.005i and .005j and .005k by themselves work
+ ;.005i+.005j+.005k works as well
+ ;So does 1+.005i+.005j+.005k
+ ;.05+j does NOT work
+ ;0.05+j DOES work
+ ;1/5+j does NOT work
+ 
+ ;Summary:
+ 
+ ;starting with a fraction for h yields:
+  ;quaternion.rkt:23:58: *: contract violation
+  ;expected: number?
+  ;given: #f
+  ;argument position: 2nd
+  ;other arguments...:
+   ;1
+   
+   ;Starting with a decimal for h returns undefined identifier error
+   ;However, a decimal starting with 0. works
+   ;.05+i+j+k ---> ERROR
+   ;0.05+i+j+k --> WORKS
+   
+ 
+ 
+ ;--------------------------------------------------
+ ;Probably from the same error:
+ ;>1/5+.005i-54893j-1/929k
+;. . quaternion.rkt:23:58: *: contract violation
+ ; expected: number?
+  ;given: #f
+  ;argument position: 2nd
+  ;other arguments...:
+  ; 1
+  ;
+  ;
+  ;
