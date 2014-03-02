@@ -1,40 +1,5 @@
 #lang racket
 
-(module OldOps racket
-  (provide 
-   old+ old- old* old/ oldsin oldcos oldexpt oldexp oldeq?)
-  (define old+ +)
-  (define old- -)
-  (define old* *)
-  (define old/ /)
-  (define oldsin sin)
-  (define oldcos cos)
-  (define oldexp exp)
-  (define oldexpt expt)
-  (define oldeq? eq?))
-
-(require 'OldOps)
-
-;(define (+ . x)
-;  (if (ormap quaternion? x) (apply quaternion-add x) (apply old+ x)))
-;(define (- . x)
-;  (if (ormap quaternion? x) (apply quaternion-subtract x) (apply old- x)))
-;(define (* . x)
-;  (if (ormap quaternion? x) (apply quaternion-multiply x) (apply old* x)))
-;(define (/ . x)
-;  (if (ormap quaternion? x) (apply quaternion-divide x) (apply old/ x)))
-;(define (cos x)
-;  (if (quaternion? x) (quaternion-cos x) (oldcos x)))
-;(define (sin x)
-;  (if (quaternion? x) (quaternion-sin x) (oldsin x)))
-;(define (exp x)
-;  (if (quaternion? x) (quaternion-exp x) (oldexp x)))
-;(define (expt x y)
-;  (if (ormap quaternion? (list x y)) (quaternion-expt x y) (oldexpt x y)))
-;(define (eq? x y)
-;  (if (ormap quaternion? (list x y)) (quaternion-equal x y) (oldeq? x y)))
-;renames all the operators.
-
 (provide quaternion (rename-out 
                      [quaternion-add +] 
                      [quaternion-subtract -] 
@@ -62,16 +27,25 @@
   #:guard (lambda (h i j k type-wrong-format)
             (unless (andmap real? (list h i j k)) (error type-wrong-format "Invalid input!")) (values h i j k)))
 
+; Returns if the numbers are equivalent, even if one is quaternion and one is real or complex
+(define (quaternion-equal number1 number2)
+  (if (ormap quaternion? (list number1 number1))
+      (let ((quaternion1 (make-quaternion number1)) (quaternion2 (make-quaternion number2)))
+        (and (= (quaternion-h quaternion1) (quaternion-h quaternion2))
+             (= (quaternion-i quaternion1) (quaternion-i quaternion2))
+             (= (quaternion-j quaternion1) (quaternion-j quaternion2))
+             (= (quaternion-k quaternion1) (quaternion-k quaternion2))))
+      (eq? number1 number2)))
 
 ;Takes a quaternion and turns it into a string. Needed for qreader.rkt
 (define (quaternion->string quat)
-  (string-append 
+  (let ((q (make-quaternion quat)))(string-append 
    "(quaternion " 
-   (number->string (quaternion-h quat)) " "
-   (number->string (quaternion-i quat)) " "
-   (number->string (quaternion-j quat)) " "
-   (number->string (quaternion-k quat)) ")"
-   ))
+   (number->string (quaternion-h q)) " "
+   (number->string (quaternion-i q)) " "
+   (number->string (quaternion-j q)) " "
+   (number->string (quaternion-k q)) ")"
+   )))
 
 ; This function takes a real, complex, or quaternion number as input, and returns a quaternion with the equivalent value.
 ; The arithmetic functions use (make-quaternion parameter) so they can handle real and complex paramters
@@ -79,9 +53,7 @@
   (if (quaternion? x)
       x
       (if (number? x)
-          (if (complex? x)
               (quaternion (real-part x) (imag-part x) 0 0)
-              (quaternion x 0 0 0))
           (quaternion 0 0 0 0))))
 
 (define (unmake-quaternion x)
@@ -245,15 +217,6 @@
       (expt root power)))
 
 
-; Returns if the numbers are equivalent, even if one is quaternion and one is real or complex
-(define (quaternion-equal number1 number2)
-  (if (ormap quaternion? (list number1 number1))
-      (let ((quaternion1 (make-quaternion number1)) (quaternion2 (make-quaternion number2)))
-        (and (= (quaternion-h quaternion1) (quaternion-h quaternion2))
-             (= (quaternion-i quaternion1) (quaternion-i quaternion2))
-             (= (quaternion-j quaternion1) (quaternion-j quaternion2))
-             (= (quaternion-k quaternion1) (quaternion-k quaternion2))))
-      (eq? number1 number2)))
 
 ; New cos and sin functions using the new equations
 (define (quaternion-cos q)
