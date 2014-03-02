@@ -12,6 +12,7 @@
                      [quaternion-equal eq?]
                      [quaternion-log log]
                      [quaternion-norm norm]
+                     [quaternion-conjugate conjugate]
                      [quaternion-reciprocal reciprocal]
                      [quaternion-unit unit]) 
          scalar-part 
@@ -77,6 +78,38 @@
   (let ((q (make-quaternion number)))
     (quaternion-subtract q (scalar-part q)))) ;Should this return a vector? a quaternion with a real part 0 is different from a vector
 
+(define (quaternion-norm number)
+  (let ((q (make-quaternion number)))
+    (sqrt (+ (expt (quaternion-h q) 2)
+             (expt (quaternion-i q) 2)
+             (expt (quaternion-j q) 2)
+             (expt (quaternion-k q) 2)))))
+
+(define (quaternion-conjugate number)
+  (if (quaternion? number)
+      (let ((q (make-quaternion number)))
+         (quaternion (quaternion-h q)
+                     (- (quaternion-i q))
+                     (- (quaternion-j q))
+                     (- (quaternion-k q))))
+      (conjugate number)))
+
+(define (quaternion-reciprocal number)
+  (let ([norm2 (expt (quaternion-norm number) 2)])
+    (quaternion (/ (quaternion-h number)   norm2)
+                (/ (- (quaternion-i number)) norm2)
+                (/ (- (quaternion-j number)) norm2)
+                (/ (- (quaternion-k number)) norm2))
+    ))
+; Tested: (quaternion-reciprocal (quaternion 1 2 3 4)) returns (quaternion 0.03333333333333333 -0.06666666666666667 -0.1 -0.13333333333333333)
+;     verified by worlfram alpha
+
+
+(define (quaternion-unit number)
+  (let ((q (make-quaternion number)))
+    (quaternion-divide q (quaternion-norm q))))
+
+
 ; Take any number of quaternions, real numbers, and complex numbers and return the sum as a quaternion struct
 (define (quaternion-add . quaternions)
   (if (ormap quaternion? quaternions)
@@ -129,35 +162,7 @@
 ; Tested: (quaternion-divide (quaternion 2 4 6 8) 2) returns (quaternion 1 2 3 4)
 ; (quaternion-divide (quaternion 2 4 6 8) (quaternion 1 2 3 4)) returns (quaternion 2.0 0.0 0.0 -5.551115123125783e-17)
 
-(define (quaternion-reciprocal x)
-  (let ([norm2 (expt (quaternion-norm x) 2)])
-    (quaternion (/ (quaternion-h x)   norm2)
-                (/ (- (quaternion-i x)) norm2)
-                (/ (- (quaternion-j x)) norm2)
-                (/ (- (quaternion-k x)) norm2))
-    ))
-; Tested: (quaternion-reciprocal (quaternion 1 2 3 4)) returns (quaternion 0.03333333333333333 -0.06666666666666667 -0.1 -0.13333333333333333)
-;     verified by worlfram alpha
 
-(define (quaternion-conjugate number)
-  (if (quaternion? number)
-      ((let ((q (make-quaternion number)))
-         (quaternion (quaternion-h q)
-                     (- (quaternion-i q))
-                     (- (quaternion-j q))
-                     (- (quaternion-k q)))))
-      (conjugate number)))
-
-(define (quaternion-norm number)
-  (let ((q (make-quaternion number)))
-    (sqrt (+ (expt (quaternion-h q) 2)
-             (expt (quaternion-i q) 2)
-             (expt (quaternion-j q) 2)
-             (expt (quaternion-k q) 2)))))
-
-(define (quaternion-unit number)
-  (let ((q (make-quaternion number)))
-    (quaternion-divide q (quaternion-norm q))))
 
 ; Returns e^number, for a real, complex, or quaternion value
 ; Uses the equation e^a * (cos(||v||) + v/||v|| * sin(||v||)) where a is the scalar part, v is the vector part
