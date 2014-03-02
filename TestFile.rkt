@@ -53,3 +53,14 @@
   ;
   ;
   ;
+
+
+;------------------------------
+;Testing the sin and cos functions and comparing to this site: http://home.comcast.net/~tamivox/redbear/qtrn_calc/index.html
+;I think I found an error with ours:
+
+;Only giving a vector as an input with no real coefficient returns nan for the values 
+;(sin 2i+3j) = (quaternion 0 +nan.0 +nan.0 0) | (cos i+j+k) = (quaternion +nan.0 +nan.0 +nan.0 +nan.0)
+
+;However, in the online calculator, actual values are returned 
+;(sin 2i+3j) = 10.199i+15.299j | (cos i+j+k) = 2.915 
