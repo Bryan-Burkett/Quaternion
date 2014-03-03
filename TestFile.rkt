@@ -64,3 +64,5 @@
 
 ;However, in the online calculator, actual values are returned 
 ;(sin 2i+3j) = 10.199i+15.299j | (cos i+j+k) = 2.915 
+
+; ----- It was actually an error in expt- should be fixed now
