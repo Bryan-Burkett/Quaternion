@@ -1,6 +1,5 @@
 #lang racket
 (require "Quaternion.rkt")
-(require "qreader.rkt")
 
 ;It was found that the reader does not function correctly when given just -i,-j, or -k:
 ;>1-i-k

@@ -162,7 +162,7 @@
             (exp (unmake-quaternion number))
             (quaternion-multiply (exp a)
                                  (quaternion-add (cos (quaternion-norm v))
-                                                 (quaternion-multiply (quaternion-divide v (quaternion-norm v))
+                                                 (quaternion-multiply (quaternion-unit v)
                                                                       (sin (quaternion-norm v)))))))
       (exp number)))
 ; Tested: (quaternion-exp (quaternion 1 2 3 4)) returns (quaternion 1.6939227236832994 -0.7895596245415588 -1.184339436812338 -1.5791192490831176)
@@ -176,7 +176,7 @@
       (let ((q (make-quaternion number))
             (a (scalar-part (make-quaternion number)))
             (v (vector-part (make-quaternion number))))
-        (if (real? number)
+        (if (quaternion-equal v 0)
             (log number)
             (quaternion-add (log (quaternion-norm q)) (quaternion-multiply (quaternion-unit v) (acos (/ a (quaternion-norm q)))))))
       (log number)))
@@ -192,16 +192,24 @@
             (p (make-quaternion power))
             (a (scalar-part (make-quaternion root)))
             (v (vector-part (make-quaternion root))))
-        (cond [(and (quaternion-equal (quaternion 0 0 0 0) v)(quaternion-equal p (scalar-part p))) (make-quaternion (expt a (scalar-part p)))];just a scalar to a scalar power
-              [(quaternion-equal (quaternion 0 0 0 0) p)     (quaternion 1 0 0 0)]; power is the zero quaternion, outputs scalar 1
+        (cond [(quaternion-equal (quaternion 0 0 0 0) p)     (quaternion 1 0 0 0)]; power is the zero quaternion, outputs scalar 1
               [(quaternion-equal (quaternion 0 0 0 0) r)     (quaternion 0 0 0 0)]; root is the zero quaternion, outputs scalar 0
-              [(quaternion-equal (quaternion 0 0 0 0) v)     (quaternion-exp (quaternion-multiply power (log a)))]; root is a scalar quaternion and power is not
               [ else                                         (quaternion-exp (quaternion-multiply power (quaternion-log root)))]))
       (expt root power)))
 
 
 
 ; New cos and sin functions using the new equations
+(define (quaternion-sin q)
+  (if (quaternion? q)
+      (if (quaternion-equal (vector-part q) 0)
+          (sin (unmake-quaternion q))
+          (let ((V (quaternion-unit (vector-part q))))
+            (quaternion-divide (quaternion-subtract (quaternion-exp (quaternion-multiply q V))
+                                                    (quaternion-exp (quaternion-multiply -1 q V)))
+                               (quaternion-multiply 2  V))))
+      (sin q)))
+
 (define (quaternion-cos q)
   (if (quaternion? q)
       (if (quaternion-equal (vector-part q) 0)
@@ -210,13 +218,3 @@
             (quaternion-divide (quaternion-add (quaternion-exp (quaternion-multiply q V))
                                                (quaternion-exp (quaternion-multiply -1 q V))) 2)))
           (cos (unmake-quaternion q))))
-
-(define (quaternion-sin q)
-  (if (quaternion? q)
-      (if (quaternion-equal (vector-part q) 0)
-          (sin (unmake-quaternion q))
-          (let ((V (quaternion-unit (vector-part q))))
-            (quaternion-divide (quaternion-subtract (quaternion-exp (quaternion-multiply q V))
-                                                    (quaternion-exp (quaternion-multiply -1 q V)))
-                               (quaternion-multiply 2  (quaternion-divide (vector-part q)  (quaternion-norm (vector-part q)))))))
-      (sin q)))
