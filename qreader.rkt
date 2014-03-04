@@ -74,12 +74,12 @@
 (define (replaceQuatToken Token)
   (if (GoodExpression? Token) 
       (if (string->number Token) 
-         (let () (print "Token:") (print Token) Token) 
+         Token 
           (quaternion->string (Expression->Quaternion Token)))
        Token
       )
   )
-
+  
 ;replaces instances in string with quaternion expressions ("3+i+j+k") with the definition ("(quaterion 3 1 1 1)")
 (define (replaceQuatString expString)
   (string-join (map replaceQuatToken (splitToTokens expString)) ""))
