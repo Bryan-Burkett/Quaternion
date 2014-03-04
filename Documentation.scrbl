@@ -75,7 +75,8 @@ This represents
                                                                                  >(norm (quaternion 2 5 34 -1))
                                                                                  34.4383507154451252}|} 
                                                                                                        
-@defproc[(conjugate [x quaternion?/number?])quaternion?/number?]{Defined within the module as @code{(quaternion-conjugate number)}. Returns the conjugate of @code{x}. This is a new quaternion with the same real part as @code{x} and the opposite vector parts. The product of @code{x} and it's reciprocal is the square of the norm. This a new quaternion with the same real part as @code{x} This is equivalent to @code{(- (real-part x) (vector-part x))}, however this function takes the opposite of each imaginary component individually. If none of the arguments are quaternions, uses racket's default @code{conjugate} procedure.
+@defproc[(conjugate [x quaternion?/number?])quaternion?/number?]{Defined within the module as @code{(quaternion-conjugate number)}. Returns the conjugate of @code{x}. This is a new quaternion with the same real part as @code{x} and the opposite vector parts. The product of @code{x} and it's reciprocal is the square of the norm. This a new quaternion with the same real part as @code{x} 
+                                                                 This is equivalent to @code{(- (real-part x) (vector-part x))}, however this function takes the opposite of each imaginary component individually. If none of the arguments are quaternions, uses racket's default @code{conjugate} procedure.
                                                                  @codeblock|{
                                                                              >(conjugate (quaternion 2 5 34 -1))
                                                                              (quaternion  2 -5 -34 1)}|}
@@ -96,29 +97,49 @@ This represents
 
 @subsection{Basic Operators}
 
-@defproc[(+ [x quaternion?/number?]...) quaternion?/number?]{Defined within the module as @code{(quaternion-add . quaternions)}. Returns the sum of all @code{x}s, or for only one @code{x} returns @code{x}. If none of the arguments are quaternions, uses racket's default @code{+} procedure. Otherwise, converts all arguments to quaternions and returns a new quaternion whose components are the the sums of the corresponding components of the arguments.
-                                                                                    @codeblock|{
-                                                                                                (+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
-                                                                                                (quaternion 1 5 38 15)}|}
+@defproc[(+ [x quaternion?/number?]...) quaternion?/number?]{Defined within the module as @code{(quaternion-add . quaternions)}. Returns the sum of all @code{x}s, or for only one @code{x} returns @code{x}.
+                                                             If none of the arguments are quaternions, uses racket's default @code{+} procedure. Otherwise, converts all arguments to quaternions and returns a new quaternion whose components are the the sums of the corresponding components of the arguments.
+                                                             @codeblock|{
+                                                                         >(+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
+                                                                         (quaternion 1 5 38 15)
+                                                                         > (+ (quaternion 1 2 3 4) 4 (quaternion 4 3 5 -3) 3-2i)
+                                                                         (quaternion 12 3 8 1)}|}
 
 
-@defproc[(- [w quaternion?/number?])quaternion?/number?]{Returns the opposite of @code{w}. The same as (- 0 w)].}
-@defproc[(- [x quaternion?/number?][w quaternion?/number?]...)quaternion?/number?]{Returns the difference of @code{w} from @code{x}. For multiple @code{w}s takes the difference of each @code{w} from @code{x} working left to right. If none of the @code{x}s are quaternions, uses racket's default - procedure.
-                                                                                                             @codeblock|{
-                                                                                                                         >(- (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
-                                                                                                                         (quaternion 3 5 30 -17)}|}
+@defproc*[([(- [x quaternion?/number?])quaternion?/number?]
+[(- [x quaternion?/number?][w quaternion?/number?]...)quaternion?/number?])]{Defined within the module as @code{(quaternion-subtract . quaternions)}. Returns the difference of @code{w} from @code{x}. If no @code{w}s are supplied, returns @code{(- 0 x)} For multiple @code{w}s takes the difference of each @code{w} from @code{x}. If none of the parameters are quaternions, uses racket's default @code{-} procedure, otherwise makes each argument a quaternion,
+                                                                                   then returns a new quaternion whose elements are the correspoonding elements of @code{x} minus the corresponding element of each @code{w}.
+                                                                                   @codeblock|{
+                                                                                               > (- (quaternion 1 2 3 4))
+                                                                                               (quaternion -1 -2 -3 -4)
+                                                                                               > (- (quaternion 3 2 4 5) (quaternion 5 3 7 5))
+                                                                                               (quaternion -2 -1 -3 0)
+                                                                                               > (- (quaternion 10 6 22 -5) 4 (quaternion 2 3 4 1) 3+2i)
+                                                                                               (quaternion 1 1 18 -6)}|}
 
-@defproc[(* [x quaternion?/number?]...) quaternion?/number?]{Returns the product of all @code{x}s, or for only one @code{x} returns @code{x}. If none of the arguments are quaternions, uses racket's default * procedure.
-                                                                                        @codeblock|{
-                                                                                                    >(* (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
-                                                                                                    (quaternion -122 543 -106 53)}|}
+@defproc[(quaternion-multiply2 [x quaternion?][w quaternion?]) quaternion?]{Only defined within the module, used by the @code{*} and @code{/} procedures. Returns a quaternion product of two quaternions using the following formulae:
+                                                                            @para{h@subscript{new} = h@subscript{x}*h@subscript{w} - i@subscript{x}*i@subscript{w} - j@subscript{x}*j@subscript{w} - k@subscript{x}*k@subscript{w}}
+                                                                            @para{i@subscript{new} = h@subscript{x}*i@subscript{w} + i@subscript{x}*h@subscript{w} + j@subscript{x}*k@subscript{w} - k@subscript{x}*j@subscript{w}}
+                                                                            @para{j@subscript{new} = h@subscript{x}*j@subscript{w} - i@subscript{x}*k@subscript{w} + j@subscript{x}*h@subscript{w} + k@subscript{x}*i@subscript{w}}
+                                                                            @para{k@subscript{new} = h@subscript{x}*k@subscript{w} + i@subscript{x}*j@subscript{w} - j@subscript{x}*i@subscript{w} + k@subscript{x}*h@subscript{w}}}
+                                                                                                                        }
+
+@defproc[(* [x quaternion?/number?]...) quaternion?/number?]{Defined within the module as @code{(quaternion-multiply . quaternions)}. Returns the product of all @code{x}s, or for only one @code{x} returns @code{x}.
+                                                             If none of the arguments are quaternions, uses racket's default @code{*} procedure. Otherwise, converts all arguments to quaternions and uses @code{quaternion-multiply2} to multiply all of the arguments pairwise from left to right.
+                                                             @codeblock|{
+                                                                         > (* (quaternion 1 2 3 4) (quaternion 4 3 2 1))
+                                                                         (quaternion -12 6 24 12)
+                                                                         > (* (quaternion 1 2 3 4) 2 (quaternion 4 3 2 1) 4-8i)
+                                                                         (quaternion 0 240 0 480)}|}
 
 
-@defproc[(/ [w quaternion?/number?])quaternion?/number?]{Returns the reciprocal of @code{w}. The same as (/ 1 w)].}
-@defproc[(/ [x quaternion?/number?][w quaternion?/number?]...)quaternion?/number?]{Returns the quotient of @code{x} over @code{w}. For multiple @code{w}s takes the quotient of each @code{w} from @code{x} working left to right. If any @code{w} is exact 0, the exn:fail:contract:divide-by-zero] exn:fail:contract:divide-by-zero exception is raised. If none of the arguments are quaternions, uses racket's default / procedure.
-                                                                                                           @codeblock|{
-                                                                                                                       >(- (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
-                                                                                                                       (quaternion 3 5 30 -17)}|}
+@defproc*[([(/ [x quaternion?/number?])quaternion?/number?]
+[(/ [x quaternion?/number?][w quaternion?/number?]...)quaternion?/number?])]{Defined within the module as @code{(quaternion-divide . quaternions)}. Returns @code{x} divided by @code{w}. If no @code{w}s are supplied returns @code{(reciprocal x)}, which is equivalent to @code{(/ 1 x}. If none of the parameters are quaternions, uses racket's default @code{/} procedure.
+                                                                             Otherwise
+                                                                             
+                                                                            @codeblock|{
+                                                                                        >(- (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
+                                                                                        (quaternion 3 5 30 -17)}|}
 
 @subsection{Advanced Operators}
 

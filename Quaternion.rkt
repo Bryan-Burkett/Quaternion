@@ -132,23 +132,22 @@
                     (apply - (map quaternion-k quaternion-list))))
       (apply - quaternions)))
 
+(define (quaternion-multiply2  x1 x2)
+  (quaternion (apply + (list (* (quaternion-h x1) (quaternion-h x2))  (- (* (quaternion-i x1) (quaternion-i x2))) (- (* (quaternion-j x1) (quaternion-j x2))) (- (* (quaternion-k x1) (quaternion-k x2))))) ;h
+              (apply + (list (* (quaternion-h x1) (quaternion-i x2))  (*    (quaternion-i x1) (quaternion-h x2))  (*    (quaternion-j x1) (quaternion-k x2))  (- (* (quaternion-k x1) (quaternion-j x2)))));i
+              (apply + (list (* (quaternion-h x1) (quaternion-j x2))  (- (* (quaternion-i x1) (quaternion-k x2))) (*    (quaternion-j x1) (quaternion-h x2))  (*    (quaternion-k x1) (quaternion-i x2)))) ;j
+              (apply + (list (* (quaternion-h x1) (quaternion-k x2))  (*    (quaternion-i x1) (quaternion-j x2))  (- (* (quaternion-j x1) (quaternion-i x2))) (*    (quaternion-k x1) (quaternion-h x2)))))) ;k
+
 (define (quaternion-multiply . quaternions)
-  (define (quaternion-multiply2  x1 x2)
-    (quaternion (apply + (list (* (quaternion-h x1) (quaternion-h x2))  (- (* (quaternion-i x1) (quaternion-i x2))) (- (* (quaternion-j x1) (quaternion-j x2))) (- (* (quaternion-k x1) (quaternion-k x2))))) ;h
-                (apply + (list (* (quaternion-h x1) (quaternion-i x2))  (*    (quaternion-i x1) (quaternion-h x2))  (*    (quaternion-j x1) (quaternion-k x2))  (- (* (quaternion-k x1) (quaternion-j x2)))));i
-                (apply + (list (* (quaternion-h x1) (quaternion-j x2))  (- (* (quaternion-i x1) (quaternion-k x2))) (*    (quaternion-j x1) (quaternion-h x2))  (*    (quaternion-k x1) (quaternion-i x2)))) ;j
-                (apply + (list (* (quaternion-h x1) (quaternion-k x2))  (*    (quaternion-i x1) (quaternion-j x2))  (- (* (quaternion-j x1) (quaternion-i x2))) (*    (quaternion-k x1) (quaternion-h x2)))))) ;k
   (if (ormap quaternion? quaternions)
       (foldr quaternion-multiply2 (quaternion 1 0 0 0) (map make-quaternion quaternions))
       (apply * quaternions)))
 
 (define (quaternion-divide . quaternions)
-  (define (quaternion-divide2 x1 x2)
-         (quaternion-multiply x1 (quaternion-reciprocal x2)))
   (if (ormap quaternion? quaternions)
       (if (null? (cdr quaternions))
           (quaternion-reciprocal (make-quaternion (car quaternions)))
-          (foldr (lambda (x1 x2) (quaternion-divide2 x2 x1)) (make-quaternion (car quaternions)) (map make-quaternion (cdr quaternions))))
+          (foldr (lambda (x1 x2) (quaternion-multiply2 x2 (quaternion-reciprocal x1))) (make-quaternion (car quaternions)) (map make-quaternion (cdr quaternions))))
       (apply / quaternions)))
 
 ; Returns e^number, for a real, complex, or quaternion value
