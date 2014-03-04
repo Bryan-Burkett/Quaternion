@@ -12,7 +12,7 @@
 (define (myRegExpSplit s) 
   (if (equal? (substring s 0 1) "-") (regexp-split #rx"[-+]" (substring s 1)) (regexp-split #rx"[-+]" s)))  ;Splits a string by "+" and "-" operaters
 (define (myRegexMatch s) (regexp-match termRegex s))                                                        ;Does s match termRegex
-(define termRegex #px"^(((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[ijk])|([0-9]+[/][0-9]+)|([0-9]*([.][0-9]*)?)|([0-9]+))$")   ;regex for a single term in expression
+(define termRegex #px"^(([0-9]*([.][0-9]*))|((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]+)|([0-9]+[/][0-9]+))$")    ;regex for a single term in expression
 ;----------------------------------------------------------
 
 ;Turns any expression into a quaternion, in which each term is connected by a + or -, and the term is scalar or ends in i j k
@@ -20,26 +20,21 @@
 
 (define (Expression->Quaternion s)
   (if (GoodExpression? s) 
-      (let ([myTerms (regexp-match* #rx"(((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[ijk])|([0-9]+[/][0-9]+)|([0-9]+([.][0-9]*)?)|([.][0-9]+)|([0-9]+))|[+-]" s)])
-        ;(define-values (myh myi myj myk) (values 0 0 0 0));;;my addition
+      (let ([myTerms (regexp-match* #rx"(((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]+[/][0-9]+)|([0-9]+))|[+-]" s)])
+        (define-values (myh myi myj myk) (values 0 0 0 0));;;my addition
         (define (addTerm terms h i j k)
           (if (empty? terms) (quaternion h i j k)
               {let ()
-               ;(print "  h:") (print h) (print "  i:") (print i) (print "  j:") (print j) (print "  k:")  (print k) (print "  terms:")  (print terms)
+               (print "  h:") (print h) (print "  i:") (print i) (print "  j:") (print j) (print "  k:")  (print k) (print "  terms:")  (print terms)
                 (define thisTerm (car terms))
                 (define nextTerm (cadr terms))
                 (define lastCharOfNext (substring nextTerm (- (string-length nextTerm) 1 )))
-                (define magnitude 
-                  (if (or (equal? lastCharOfNext "i") (equal? lastCharOfNext "j") (equal? lastCharOfNext "k"))
-                             
-                  (substring nextTerm 0 (- (string-length nextTerm) 1 ))
-                  nextTerm))
+                (define AllButlastCharOfNext (substring nextTerm 0 (- (string-length nextTerm) 1 )))
                 (define sign (if (equal? thisTerm "-") -1 1))
                 (define getNonScalar 
-                  (if (equal? magnitude "") 
+                  (if (equal? AllButlastCharOfNext "") 
                       1 ;This is the instance that the term is a standalone i j or k
-                      ;(let () (print magnitude)
-                      (* sign (string->number magnitude))))
+                      (* sign (string->number AllButlastCharOfNext))))
                 (cond
                   [(equal? lastCharOfNext "i") (addTerm (cddr terms) h (+ i getNonScalar) j k)]
                   [(equal? lastCharOfNext "j") (addTerm (cddr terms) h i (+ j getNonScalar)  k)]
@@ -80,9 +75,9 @@
 (define (replaceQuatToken Token)
   (if (GoodExpression? Token) 
       (if (string->number Token) 
-          Token
+         (let () (print "Token:") (print Token) Token) 
           (quaternion->string (Expression->Quaternion Token)))
-      Token
+      (let () (print "Token:")(print Token) Token)
       )
   )
 
