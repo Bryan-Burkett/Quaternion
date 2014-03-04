@@ -20,16 +20,21 @@
 
 (define (Expression->Quaternion s)
   (if (GoodExpression? s) 
-      (let ([myTerms (regexp-match* #rx"(((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]+[/][0-9]+)|([0-9]+))|[+-]" s)])
+      (let ([myTerms (regexp-match* #rx"(([0-9]*([.][0-9]+))|((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]+[/][0-9]+)|([0-9]+))|[+-]" s)])
         (define-values (myh myi myj myk) (values 0 0 0 0));;;my addition
         (define (addTerm terms h i j k)
           (if (empty? terms) (quaternion h i j k)
               {let ()
+                ;(print terms)
                 (define thisTerm (car terms))
                 (define nextTerm (cadr terms))
                 (define lastCharOfNext (substring nextTerm (- (string-length nextTerm) 1 )))
-                (define AllButlastCharOfNext (substring nextTerm 0 (- (string-length nextTerm) 1 )))
+                (define AllButlastCharOfNext 
+                  (if (equal? (substring nextTerm 0 (- (string-length nextTerm) 1 )) ".")
+                      nextTerm
+                       (substring nextTerm 0 (- (string-length nextTerm) 1 ))))
                 (define sign (if (equal? thisTerm "-") -1 1))
+                ;(print AllButlastCharOfNext)
                 (define getNonScalar 
                   (if (equal? AllButlastCharOfNext "") 
                       1 ;This is the instance that the term is a standalone i j or k
