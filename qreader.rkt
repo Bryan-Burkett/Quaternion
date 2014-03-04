@@ -25,7 +25,6 @@
         (define (addTerm terms h i j k)
           (if (empty? terms) (quaternion h i j k)
               {let ()
-               (print "  h:") (print h) (print "  i:") (print i) (print "  j:") (print j) (print "  k:")  (print k) (print "  terms:")  (print terms)
                 (define thisTerm (car terms))
                 (define nextTerm (cadr terms))
                 (define lastCharOfNext (substring nextTerm (- (string-length nextTerm) 1 )))
@@ -77,7 +76,7 @@
       (if (string->number Token) 
          (let () (print "Token:") (print Token) Token) 
           (quaternion->string (Expression->Quaternion Token)))
-      (let () (print "Token:")(print Token) Token)
+       Token
       )
   )
 
