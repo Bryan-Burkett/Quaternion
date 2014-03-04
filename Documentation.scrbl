@@ -134,9 +134,8 @@ This represents
 
 
 @defproc*[([(/ [x quaternion?/number?])quaternion?/number?]
-[(/ [x quaternion?/number?][w quaternion?/number?]...)quaternion?/number?])]{Defined within the module as @code{(quaternion-divide . quaternions)}. Returns @code{x} divided by @code{w}. If no @code{w}s are supplied returns @code{(reciprocal x)}, which is equivalent to @code{(/ 1 x}. If none of the parameters are quaternions, uses racket's default @code{/} procedure.
-                                                                             Otherwise
-                                                                             
+[(/ [x quaternion?/number?][w quaternion?/number?]...)quaternion?/number?])]{Defined within the module as @code{(quaternion-divide . quaternions)}. Returns @code{x} divided by @code{w}. If no @code{w}s are supplied returns @code{(reciprocal x)}, which is equivalent to @code{(/ 1 x)}. If none of the parameters are quaternions, uses racket's default @code{/} procedure.
+                                                                             Otherwise.
                                                                             @codeblock|{
                                                                                         >(- (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
                                                                                         (quaternion 3 5 30 -17)}|}
