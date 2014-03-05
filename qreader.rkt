@@ -2,7 +2,7 @@
 
 
 #lang racket
-(require "Quaternion.rkt")
+(require "quaternion.rkt")
 (provide start)
 ;----------------------------------------------------------
 ;Checks if an expression is in the correct syntax to for the quaternion conversion
@@ -20,8 +20,7 @@
 
 (define (Expression->Quaternion s)
   (if (GoodExpression? s) 
-      (let ([myTerms (regexp-match* #rx"(([0-9]*([.][0-9]+))|((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]+[/][0-9]+)|([0-9]+))|[+-]" s)])
-        (define-values (myh myi myj myk) (values 0 0 0 0));;;my addition
+      (let ([myTerms (regexp-match* #rx"(((([0-9]*([.][0-9]*)?)|([0-9]+[/][0-9]+))[i|j|k])|([0-9]*([.][0-9]+))|([0-9]+[/][0-9]+)|([0-9]+))|[+-]" s)])
         (define (addTerm terms h i j k)
           (if (empty? terms) (quaternion h i j k)
               {let ()
@@ -37,7 +36,7 @@
                 ;(print AllButlastCharOfNext)
                 (define getNonScalar 
                   (if (equal? AllButlastCharOfNext "") 
-                      1 ;This is the instance that the term is a standalone i j or k
+                      sign ;This is the instance that the term is a standalone i j or k
                       (* sign (string->number AllButlastCharOfNext))))
                 (cond
                   [(equal? lastCharOfNext "i") (addTerm (cddr terms) h (+ i getNonScalar) j k)]
