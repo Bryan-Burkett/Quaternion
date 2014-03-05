@@ -5,22 +5,57 @@ If anyone else has other suggestions, please list them here.
 
 
 notable timeline of project events:
+Week 1: no lab
 1/21: Course began and project was assigned
 1/23: Github account set up and created test module for quaternion.rkt
+Week 2: introduction to racket
 1/30: Added collaborators on Gitub so the whole team can edit
+Week 3: Recursion and parsing lists
 2/6: Barebones functions added for required operations
 2/6: +, -, /, * all created along with make-quaternion function
 2/8: * and / fixed and log function completed
+Week 4: Modules and providing functions
 2/10: exponential function completed and case exceptions began being tested
 2/11: sin and cos taylor series approximation added
+Week 5: outside of class meetings
 2/19: attempted to overload operators by renaming the function calls
 2/23: #guard feature added to structure as error checking mechanism
+Week 6: Reader example
 2/25: qreader.rkt created
 2/26: reader parser completed
 2/27: Remade sin and cos functions to Euler's formula instead of series approximation
 2/28: streamlined qreader and quaternion files
 
 (I will also be looking over old emails and the lab assignments to see what was done when) 
+
+Overview: A basic description of the project involving the assignment objectives and requirements. Will be something short and sweet.
+
+Week 1: 
+At the beginning of the project we were assigned teams and given the requirements of the project.  Quaternions algebra was not a concept most of the team had worked with before.  On top of that, not all of the team had programmed in Racket before so moving into a functional language from their previous object oriented programming was quite the change.   The first step in completing the project was to fully comprehend the task at hand.  The whole team was charged with researching quaternions and their properties.  Team members that had worked with the Racket helped the transition for other team members in working in the Racket workspace.  We quickly decided Github was the best way to stay up to date with the code we will be working on throughout the project.  
+Week 2: 
+After learning a bit more about our team members, we finalized roles assignments for the project.  We laid out the individual responsibilities for each role in the project.   In lab this week we were given a quick tutorial on how to code in Racket.  This was immensely helpful to those who had not taken a class with Racket before and a nice refresher for the people who had.  Team research proved fruitful as we found function equations that we could implement in the Racket syntax.  We also managed to find some small segments of scheme code relating to quaternions that we could draw ideas from.  Basic addition subtraction and multiplication functions outlined and tested.  Getting these basic quaternion functions working properly was vital since other functions draw upon these to complete their function.  
+Week 3:
+This week the differences in tasks among the roles became more prominent.  Most of the required functions were completed on the Github by the programmers.  Since the functions were being completed the support team was able to extensively test the functionality of the program.  Due to the ease of testing these basic functions, support also looked into how to overload operators in Racket.  The Business Consultants began to conspire against the true king of Westeros.  Documentation began to understand the workings of Scribble the built in documentation mechanism of Racket.  
+
+division and multiplication were written using a seqOperator helper function.
+*seqOperator was removed at some point ..week 5? for a better solution
+
+Week 4: Modules and providing functions
+the exponential function was written with 5 separate cases, depending on whether the function was fed real numbers, zeroes or quaternions as the root or power.
+*changed sometime during week 6? to only require 3 different cases, making the program more efficient
+
+the best formula for calculating sin and cos at the time was through a taylor series. our programmers had the series extend to 45 terms for a reasonable estimate. while not entirely desirable, it was functional and able to be tested.
+
+Week 5: outside of class meetings
+unusual scheduled times due to fairs and expos
+the use of structures to represent quaternions allows our system to make use of the built-in guard feature
+
+Week 6: Reader example
+2/25: qreader.rkt created
+2/26: reader parser completed
+Remade sin and cos functions to Euler's formula instead of series approximation;
+this removed the necessity of a factorial helper function, reducing the size of our system even more.
+
 
 
 
