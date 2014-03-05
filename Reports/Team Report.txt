@@ -5,22 +5,33 @@ If anyone else has other suggestions, please list them here.
 
 
 notable timeline of project events:
+Week 1: no lab
 1/21: Course began and project was assigned
 1/23: Github account set up and created test module for quaternion.rkt
+Week 2: introduction to racket
 1/30: Added collaborators on Gitub so the whole team can edit
+Week 3: Recursion and parsing lists
 2/6: Barebones functions added for required operations
 2/6: +, -, /, * all created along with make-quaternion function
 2/8: * and / fixed and log function completed
+Week 4: Modules and providing functions
 2/10: exponential function completed and case exceptions began being tested
 2/11: sin and cos taylor series approximation added
+Week 5: outside of class meetings
 2/19: attempted to overload operators by renaming the function calls
 2/23: #guard feature added to structure as error checking mechanism
+Week 6: Reader example
 2/25: qreader.rkt created
 2/26: reader parser completed
 2/27: Remade sin and cos functions to Euler's formula instead of series approximation
 2/28: streamlined qreader and quaternion files
 
 (I will also be looking over old emails and the lab assignments to see what was done when) 
+
+Overview: A basic description of the project involving the assignment objectives and requirements. Will be something short and sweet.
+
+
+
 
 
 
