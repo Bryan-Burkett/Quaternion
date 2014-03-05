@@ -1,0 +1,20 @@
+Justin Arnspiger	
+2615245										
+	I was a member of the support group for team 1 for the quaternion calculator project. The support group’s job was to verify that the functions performed in the correct manner. It was also our task to attempt to “break” the functions in the module that the programmers had programmed. If we found that anything did break then we would try to find a way to fix anything that produced odd behavior or gave odd values. If we could not find a way to fix the code or we could not figure out what exactly was causing the error, then we sent it off to the programmers for them to work through it. Since this part of our role did not become relevant until after the program had been at least partially created, another part of our role in the early stages was to try to provide ideas for the program. 
+	
+	The only idea that I was able to provide was the idea to use the racket reader. The weekend before we were assigned to work with it in the lab, I tried to research into ways to take input in the form a+bi+cj+dk and return a quaternion struct. After a few hours of research, I came across the racket reader. I then forwarded the link that explained the concept to the project leader. 
+	
+	Once some of the code had been created and uploaded to our GitHub, we were able to start testing the program. I tested the program by first testing the functions with every sort of input that I could think of to see if the program broke. If I thought that the function handled input well, then I’d move on to test its output. I did this by comparing the results that the function returned to results that I had gotten from reliable online calculators such as Wolfram Alpha. 
+The first part that I was able to break was the struct itself. I found that the user could provide non-number input as a coefficient. The program accepted this without error, and it lead to odd behavior later on in the actual functions. I notified the project leader at the next meeting and started researching online to try to find a way to ensure that every coefficient was a real number. Eventually I came across the concept of a guard condition. A guard condition in a racket struct ensures that input meets certain parameters, otherwise it will display an error. Using this concept, I was able to construct and add this guard condition to the struct:
+
+#:guard (lambda (h i j k type-wrong-format)
+            (unless (andmap real? (list h i j k)) 
+		(error type-wrong-format "Invalid input!")) (values h i j k)))
+
+
+	The next problem with the program that we found was detected by the other member of the support group. He had found that if the reader was given input where one of the vector variables had only a minus sign and no coefficient, then the struct would be created with a positive 1 as that variable’s coefficient. I notified the programmers of this problem and provided some code that might fix it by including an extra if-statement to carry the minus sign through. 
+	
+	Another problem that I found was that our reader crashes when given a value such as .05 for the real coefficient. I hypothesized that this was due to the reader not having a case where the string begins with a decimal point. I came to this conclusion when I found that 0.05+j works, meaning that it was able to correctly read the 0. I also found that having a fraction for the real coefficient caused an error as well, which I hypothesized was for a similar reason. I forwarded this along to the programmers by posting it on GitHub. 
+	
+	The last problem that I found in the program was that the sin and cos functions did not perform correctly. When a quaternion with a scalar part of 0 was passed in, the functions would return +nan.0 as the coefficients for the vector part. I forwarded this problem along to both the project leader and the programmers. 
+
