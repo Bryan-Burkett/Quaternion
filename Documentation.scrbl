@@ -136,7 +136,7 @@ The "(quaternion 58.93364616794397 -34.08618369046563 -51.12927553569845 -68.172
 @defstruct[quaternion ([h real?] [i real?] [j real?] [k real?])]{A structure to represent a quaternion. @code{h} represents the real part, @code{i}, @code{j} and @code{k} represent the imaginary parts. If not provided with 4 real numbers, return a type-wrong-format error. Automatically defines @code{(quaternion? x)} to test if @code{x}
                                                                  is a quaternion. @code{(quaternion-h x)}, @code{(quaternion-i x)}, @code{(quaternion-j x)} and @code{(quaternion-k x)} can be used to get the components of a quaternion @code{x}.}
 
-@defproc[(quaternion ([h real?] [i real?] [j real?] [k real?])) quaternion?]{Creates a quaternion. The exact same as @code{(quaternion h i j k)}. Allows for faster typing.
+@defproc[(quaternion [h real?] [i real?] [j real?] [k real?]) quaternion?]{Creates a quaternion. The exact same as @code{(quaternion h i j k)}. Allows for faster typing.
 
 
 @defproc[(eq? [x quaternion?/number?][y quaternion?/number?]) quaternion?/number?]{Defined in the module as @code{(quaternion-equal number1 number2)}. Returns @code{#t} if the two arguments are equivalent mathematically, otherwise returns @code{#f}.
