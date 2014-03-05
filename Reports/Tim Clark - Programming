@@ -1,0 +1,7 @@
+Tim Clark
+2151030
+Team 1
+
+	As a programmer on our team, I worked on the mathematical library used in our project. I created a racket file defining a barebones function for each operation we wanted to be able to perform on quaternions. The functions returned a string instead of actually performing the operation, but they allowed us to fill in the functions as we worked, referring to other functions when necessary.
+	I also used a structure to represent quaternions, which made it easy to check if a number was a quaternion (using quaternion?) and to access individual real and complex parts using quaternion-h, quaternion-i, quaternion-j, and quaternion-k. A make-quaternion function allowed most of the functions to handle numbers that were real, complex, or quaternions without specifically testing for each case every time.
+	I continued to focus entirely on the base Quaternion.rkt library; I filled in functions for quaternion add, subtract, conjugate, norm, magnitude, equality testing, exp, and log. I fixed a number of the bugs that the testing and support groups found in my and other functions, simplified code that was inefficient or difficult to read, and added support for types of numbers to some functions as recommended by the team members who worked on documentation. Because of the modular format and revision control, it was very easy to coordinate multiple team members work, testing, suggestions, and revisions even for individual functions.

@@ -14,7 +14,8 @@
                      [quaternion-norm norm]
                      [quaternion-conjugate conjugate]
                      [quaternion-reciprocal reciprocal]
-                     [quaternion-unit unit])
+                     [quaternion-unit unit]
+                     [quaternion-tan tan])
          q
          scalar-part 
          vector-part 
@@ -29,6 +30,8 @@
   #:guard (lambda (h i j k type-wrong-format)
             (unless (andmap real? (list h i j k)) (error type-wrong-format "Invalid input!")) (values h i j k)))
 
+; Returns if the numbers are equivalent
+; Converts each number into a quaternion and compares those results, so it works even if one is a quaternion and one is complex
 (define (q h i j k) (quaternion h i j k))
 
 ; Returns if the numbers are equivalent, even if one is quaternion and one is real or complex
@@ -188,7 +191,7 @@
 ; (quaternion-log 3+4i) returns (quaternion 1.6094379124341003 0.9272952180016123 0 0), verified by wolfram alpha
 ; (quaternion-log (quaternion 1 2 3 4)) returns (quaternion 1.7005986908310777 0.5151902926640851 0.7727854389961277 1.0303805853281702) not verified
 
-;since we alread had (exp) and (log) defined, I just turned x^y into e^(y*log(x))
+;since we already had (exp) and (log) defined, I just turned x^y into e^(y*log(x))
 (define (quaternion-expt root power)
   (if (ormap quaternion? (list root power))
       (let ((r (make-quaternion root))
@@ -221,3 +224,14 @@
             (quaternion-divide (quaternion-add (quaternion-exp (quaternion-multiply q V))
                                                (quaternion-exp (quaternion-multiply -1 q V))) 2)))
           (cos (unmake-quaternion q))))
+
+; tan(x) = sin(x) / cos(x)
+; Because pi is an approximation, (tan (/ pi 2)) returns a very high number rather than undefined or a /0 error
+; quaternion-tan checks to make sure the cos isn't zero to avoid dividing by zero
+(define (quaternion-tan q)
+  (if (quaternion? q)
+      (let ((sine (quaternion-sin q)) (cosine (quaternion-cos q)))
+        (if (quaternion-equal cosine 0)
+            (error "undefined")
+            (quaternion-divide sine cosine)))
+      (tan q)))
