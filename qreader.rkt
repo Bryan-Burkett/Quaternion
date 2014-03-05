@@ -2,7 +2,7 @@
 
 
 #lang racket
-(require "quaternion.rkt")
+(require "Quaternion.rkt")
 (provide start)
 ;----------------------------------------------------------
 ;Checks if an expression is in the correct syntax to for the quaternion conversion
