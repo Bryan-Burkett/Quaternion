@@ -30,6 +30,12 @@ Week 6: Reader example
 
 Overview: A basic description of the project involving the assignment objectives and requirements. Will be something short and sweet.
 
+Week 1: 
+At the beginning of the project we were assigned teams and given the requirements of the project.  Quaternions algebra was not a concept most of the team had worked with before.  On top of that, not all of the team had programmed in Racket before so moving into a functional language from their previous object oriented programming was quite the change.   The first step in completing the project was to fully comprehend the task at hand.  The whole team was charged with researching quaternions and their properties.  Team members that had worked with the Racket helped the transition for other team members in working in the Racket workspace.  We quickly decided Github was the best way to stay up to date with the code we will be working on throughout the project.  
+Week 2: 
+After learning a bit more about our team members, we finalized roles assignments for the project.   In lab this week we were given a quick tutorial on how to code in Racket.  This was immensely helpful to those who had not taken a class with Racket before and a nice refresher for the people who had.  Team research proved fruitful as we found function equations that we could implement in the Racket syntax.  We also managed to find some scheme code relating to quaternions that we could draw ideas from.  
+Week 3:
+The 
 
 
 
