@@ -1,0 +1,25 @@
+Aaron Cowdrey	
+2768469
+	I was a member of the programming team for team 1 for the quaternion calculator project.
+We designed and developed numerous parts of the program. My job was to implement the quaternion program with my programming team, and fix any errors found by the testing team. I personally implemented the following functions:
+
+	multiply
+	division
+	exponential
+	to string
+	made a rename operator module (was taken out)
+	sin (Taylor series, was overwritten)
+	cos (Taylor series, was overwritten)
+	string parser for quaternions
+	racket reader
+	symbol to string that wasn't confused by parenthesis
+
+	After the other another member created a bare bones structure of the quaternion module, I started filling in function. I filled out the multiply, division, and exponential functions first; these weren't too difficult, as many of the equations I found online and I just had to write them in racket. Later I wrote the cosine and sine functions as a Taylor series, which were actually inefficient. These were later replaced by different equations using Euler's formulas. 
+	
+	When I renamed the operators of the quaternion, I ended up using a module in another file to rename the old operators and save them so they could still be used. I then imported the module and renamed the quaternion operators to be the normal arithmetic operations. There ended up being an easier and better way to do this, which was just to rename-out when we provided the functions (I did not code this). My version was taken out of the final release.
+
+	I created the string parser that took in a string to be evaluated, and was able to find any infix polynomial form quaternions (h+i+j+k), and replace them with the proper (quaternion h i j k) form. This idea came from the way that racket already processes complex numbers. It breaks each individual term down and keeps a running total of all the parts of the quaternion, then outputs it when the last term is used. I implemented the regexp so it could accept fractions and decimals as the coefficients in any order.,
+
+	To be able to parse and read input, I decided to create a reader that goes into an infinite loop of eof objects and evaluates them. What was difficult about this was turning the symbol of the entire line input into a string. The stock (symbol->string arg) function would have trouble when parenthesis were lying on the edges of the symbol, as the function would think it is a list and throw and error. To correct this I created my own symbol->string function to handle parenthesis.
+
+	I had to fix many errors that occurred with my string parser and reader. Many times it was just an error in my regexp that was not accepting a quaternion form or a quaternion term when it should be. The tester made it easy for me to see what was exactly going wrong by narrowing down the possibility of the errors.
