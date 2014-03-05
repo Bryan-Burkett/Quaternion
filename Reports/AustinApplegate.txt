@@ -1,0 +1,15 @@
+Austin Applegate
+EECS 448
+Documentation
+Self Evaluation Report
+3/3/14
+
+To write the documentation for the quaternion program I worked with my team member Dawson and the two main programmers Tim and Aaron. We worked very closely with one another to ensure that every function was being explained thoroughly in the documentation. By meeting with the programmers I was able to get a better Idea of what the functions were going to be used for the parameters they would take and what they would return and just the overall structure of the program.
+
+Before Dawson and I started writing any of the documentation we decided to first see how other software companies had put their documentation together and even more so we looked closely at Racket. Dawson then learned that Racket had its own documentation program called Scribble. Dawson and I then decided that since the program would just be a library that you can add into Racket that we would use the exact same documentation format that Racket itself used so that it would look like an extension of Racket itself.
+
+Most of my time was spent with figuring out the layout for our documentation and how to actually make that format happen with the tool that we were using, scribble. Dawson took the more advanced part of the documentation and I wrote the “basic” user guide. I decided for my part of the documentation that I would explain the very basics of what the function did. To do this I provided an example of how to compute the arithmetic of the function by hand. I then explained how the user could input the quaternion into the program to have it compute the results for them.
+
+I believe that Dawson and I did a great job of communicated and working together. We were able to keep in contact via text and had many additional team meetings outside the group meetings on Thursday. Since Dawson took the more advanced part of the Documentation I branched out and helped the business team with the presentation slides and helped Bryan write the group report.  At the beginning of the project I also helped decide the groups and assign roles.
+
+My goal as a documentation team member was to create a user manual that would explain how to import and use the library we were creating that would later be called “Quaternion.rkt”. However being part of a bigger team, that was divided into smaller teams; my overall goal was to make my team successful and help in anywhere that I could. I believe that I did benefit the team with my contributions and helped in the overall team’s success.
