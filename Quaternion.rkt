@@ -14,7 +14,8 @@
                      [quaternion-norm norm]
                      [quaternion-conjugate conjugate]
                      [quaternion-reciprocal reciprocal]
-                     [quaternion-unit unit]) 
+                     [quaternion-unit unit])
+         q
          scalar-part 
          vector-part 
          quaternion->string)
@@ -27,6 +28,8 @@
   ;of the quaternion, an error will be thrown.
   #:guard (lambda (h i j k type-wrong-format)
             (unless (andmap real? (list h i j k)) (error type-wrong-format "Invalid input!")) (values h i j k)))
+
+(define (q h i j k) (quaternion h i j k))
 
 ; Returns if the numbers are equivalent, even if one is quaternion and one is real or complex
 (define (quaternion-equal number1 number2)

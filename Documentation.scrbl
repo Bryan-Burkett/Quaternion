@@ -1,33 +1,134 @@
 #lang scribble/manual
-
-@(declare-exporting "Quaternion.rkt")
-
-
-@title{Quaternions in Racket:}
-
-
+@title{Quaternions in Racket}
 @larger{A project for EECS 448 at the University of Kansas}
 
-@centered{@tabular[#:sep @hspace[1]
-                         (list (list "Austin Applegate" "Justin Arnspiger" "Evan Bissell" "Bryan Burkett")
-                               (list "Miguel Calderon Mejia" "Eric Chanthorabout" "Quin Chen" "Tim Clark")
-                               (list "Dawson Conway" "Jonathan Coup" "Aaron Cowdrey" "Thomas Ford"))]}
+@tabular[@#:sep @hspace[3]
+                         (list (list @bold{Project Leader:} @verbatim["Bryan Burkett"])
+                               (list @bold{Project Analysis:} @verbatim["Eric Chanthorabout"])
+                               (list @bold{Programmers: } @verbatim["Tim Clark   Aaron Cowdrey   Thomas Ford"])
+                               (list @bold{Documentation:} @verbatim["Dawson Conway   Austin Applegate"])
+                               (list @bold{Billing:} @verbatim["Jonathan Coup"])
+                               (list @bold{Support:} @verbatim["Justin Arnspiger   Qin Chen"])
+                               (list @bold{Business Consultants:} @verbatim["Evan Bissell   Miguel Angel Calderon Mejia"]))]
 
-@section{Guide}
+This library comes with an optional file called "qreader.rkt". It allows for the interpreter to read quaternions in the form @code{a}+@code{b}i+@code{c}j+@code{d}k and convert them
+to the form @code{(quaternion a b c d)}. To use this feature type @code{(require "qreader.rkt")} in the definitions window and run your program. In the interpreter type @code{(start)}.
+Then you can use the interpreter as you normally would, typing quaternions in their standard infix notation.
 
-@subsection{Making a Quaternion}
-Quaternions are kdfja;dfa
+@section{Basic User Guide}
 
-To create a quaternion in racket, type
+@subsection{What a Quaternion is and how to create a Quaternion in Racket}
+Quaternions are complex number of the form w + xi + yj + zk, where w, x, y, z are real numbers and i, j, k are imaginary units that satisfy certain conditions.
+To use Quaternioin.rkt, at the top of your file type (require "Quaternion.rkt"). This will allow you to use the procedures that were created in "Quaternion.rkt".
+
+To create a Quaternion in racket, type
 @codeblock|{
-            > (quaternion 1 2 3 4)
+            >(q 1 2 3 4)
             (quaternion 1 2 3 4)
             }|
-This represents 
+or 
+@codeblock|{
+            >(quaternion 1 2 3 4)
+            (quaternion 1 2 3 4)
+            }|
+They are two different ways of creating a quaternion. Both are interchangeable.
+
+The "(quaternion 1 2 3 4)" that was returned represents 1 + 2i + 3j + 4k in the standard form.
+
+@bold{Real part of a Quaternion: }
+Since Quaternions are complex numbers meaning they have a real and imaginary part we created a function that will return you the real part of the Quaternion that you input.
+
+To find the real part of a Quaternion in racket, type
+@codeblock|{
+            > (scalar-part (q 1 2 3 4))
+            1
+            }|
+The "1" that was returned represents the real part of the Quaternion.
+
+@bold{Vector part of a Quaternion:}
+Since Quaternions are complex numbers meaning they have a real and imaginary part we created a function that will return you the vector part of the Quaternion that you input.
+
+To find the vector part of a Quaternion in racket, type
+@codeblock|{
+            > (vector-part (q 1 2 3 4))
+            (quaternion 0 2 3 4)
+            }|
+The "(quaternion 0 2 3 4)" that was returned represents the vector part of the Quaternion which would be 2i + 3j + 4k in standard form.
+
+@subsection{How To Use The Basic Operators For Quaternions}
+
+@bold{How to add Quaternions:}
+To add two quaternions you have to add each component separately. For example if we had the two quaternions 2 + 3i + 4j + 5k and 1 + 2i + 3j + 4k to add them we would just simply
+add each individual component. For this example we would add 2 + 1 = 3, 3i + 2i = 5i, 4j + 3j = 7j and lastly 5k + 4k = 9k which gives us the quaternion 3 + 5i + 7k + 9k.
+
+To add two Quaternions in racket, type
+@codeblock|{
+            > (+ (q 2 3 4 5) (q 1 2 3 4))
+            (quaternion 3 5 7 9)
+            }|
+The "(quaternion 3 5 7 9)" that was returned is the result of adding each component of the two quaternions.
+
+@bold{How to subtract Quaternions:}
+To add two quaternions you have to add each component separately. For example if we had the two quaternions 2 + 3i + 4j + 5k and 1 + 2i + 3j + 4k to subtract them we would just simply
+subtract each individual component. For this example we would subtract 2 - 1 = 1, 3i - 2i = 1i, 4j - 3j = 1j and lastly 5k - 4k = 1k which gives us the quaternion 1 + 1i + 1k + 1k.
+
+To subtract two Quaternions in racket, type
+@codeblock|{
+            > (- (q 2 3 4 5) (q 1 2 3 4))
+            (quaternion 1 1 1 1)
+            }|
+The "(quaternion 3 5 7 9)" that was returned is the result of subtracting each component of the two quaternions.
+
+@bold{How To Multiply Quaternions:}
+To multiply two quaternions we have to take the cross product of the two quaternions. For example if we had the two quaternions 2 + 3i + 4j + 5k and 1 + 2i + 3j + 4k to multiply them we would do the following.
+To get the real part of the new quaternion let's call it t0 we would do the following t0 = (2*1 - 3*2 - 4*3 - 5*4) = -36. To calculate the i component, let's call it t1, we would do the following
+t1 = (1*3 + 2*2 - 3*5 + 4*4) = 8i. To calculate the j component, let's call it t2, we would do the following t2 = (1*4 + 2*5 + 3*2 - 4*3) = 8j. To calculate the k component, let's call it t3, we would do
+the following t3 = (1*5 - 2*4 + 3*3 + 4*2) = 14k. Combine the components back together and we get the quaternions -36 + 8i + 8j + 14k.
+
+To multiply two Quaternions in racket, type
+@codeblock|{
+            > (* (q 2 3 4 5) (q 1 2 3 4))
+            (quaternion -36 8 8 14)
+            }|
+The "(quaternion -36 8 8 14)" that was returned is the result of multiplying the two quaternions together.
+
+@bold{How To Divide Quaternions:}
+To divide two quaternions we have to again break the problem into smaller parts and find each component separately. For example if we had the two quaternions 2 + 3i + 4j + 5k and 1 + 2i + 3j + 4k to divide them we would do the following.
+To get the real part of the new quaternion let's call it t0 we would do the following, t0 = (2*1 + 3*2 + 4*3 + 5*4)/(1^2 + 2^2 + 3^2 + 4^2) = 1.3333. To calculate the i component, let's call it t1, we would do the following
+t1 = (1*3 - 2*2 + 3*5 - 4*3)/(1^2 + 2^2 + 3^2 + 4^2) = -.066666i. To calculate the j component, let's call it t2, we would do the following t2 = (1*4 + 2*5 - 3*2 - 4*3)/(1^2 + 2^2 + 3^2 + 4^2) = 5.5e-17j which is 
+pretty closer to zero. To calculate the k component, let's call it t3, we would do the following t3 = (1*5 + 2*4 - 3*3 - 4*2)/(1^2 + 2^2 + 3^2 + 4^2) = -.133333k. Combine the components back together and we get the quaternions 1.333 - .0666i + 0j - .13333k.
+
+To divide two Quaternions in racket, type
+@codeblock|{
+            > (/ (q 2 3 4 5) (q 1 2 3 4))
+            (quaternion 1.3333333333333335 -0.06666666666666665 5.551115123125783e-17 -0.13333333333333333)
+            }|
+The "(quaternion 1.3333333333333335 -0.06666666666666665 5.551115123125783e-17 -0.13333333333333333)" that was returned is the result of dividing the two quaternions.
+
+@subsection{How To Use Trigonometric Functions For Quaternions}
+
+@bold{How To Find The Sine Of A Quaternion}
+To calculate the sine of a quaternion we used the following formula sin(1 + 2i + 3j + 4k) = (e^((1 + 2i + 3j + 4k)*((2i + 3j + 4k)/(||2i + 3j + 4k||))) + e^-((1 + 2i + 3j + 4k)*((2i + 3j + 4k)/(||2i + 3j + 4k||)))) / 2.
+
+To find the sine of a Quaternion in racket, type
+@codeblock|{
+            > (sin (q 1 2 3 4))
+            (quaternion 91.78371578403477 21.88648685302919 32.82973027954379 43.77297370605838)
+            }|
+The "(quaternion 91.78371578403477 21.88648685302919 32.82973027954379 43.77297370605838)" that was returned is the sine of the input quaternion.
+
+@bold{How To Find The Cosine Of A Quaternion}
+To calculate the cosine of a quaternion we used the following formula cos(1 + 2i + 3j + 4k) = (e^((1 + 2i + 3j + 4k)*((2i + 3j + 4k)/(||2i + 3j + 4k||))) - e^-((1 + 2i + 3j + 4k)*((2i + 3j + 4k)/(||2i + 3j + 4k||)))) / (2*(1 + 2i + 3j + 4k)*((2i + 3j + 4k)/(||2i + 3j + 4k||))).
+
+To find the cosine of a Quaternion in racket, type
+@codeblock|{
+           > (cos (q 1 2 3 4))
+           (quaternion 58.93364616794397 -34.08618369046563 -51.12927553569845 -68.17236738093128)
+           }|
+The "(quaternion 58.93364616794397 -34.08618369046563 -51.12927553569845 -68.17236738093128)" that was returned is the cosine of the input quaternion.
 
 
 
-@;*****************************************************************************************************************
 
 @section{Reference}
 
@@ -35,9 +136,11 @@ This represents
 @defstruct[quaternion ([h real?] [i real?] [j real?] [k real?])]{A structure to represent a quaternion. @code{h} represents the real part, @code{i}, @code{j} and @code{k} represent the imaginary parts. If not provided with 4 real numbers, return a type-wrong-format error. Automatically defines @code{(quaternion? x)} to test if @code{x}
                                                                  is a quaternion. @code{(quaternion-h x)}, @code{(quaternion-i x)}, @code{(quaternion-j x)} and @code{(quaternion-k x)} can be used to get the components of a quaternion @code{x}.}
 
+@defproc[(quaternion ([h real?] [i real?] [j real?] [k real?])) quaternion?]{Creates a quaternion. The exact same as @code{(quaternion h i j k)}. Allows for faster typing.
 
-@defproc[(eq? [x quaternion?/number?][y quaternion?/number?]) quaternion?/number?]{Defined in the module as @code{(quaternion-equal number1 number2)}. Returns @code{#t} if the two arguments are equevilent mathematically, otherwise returns @code{#f}.
-                                                                                   If none of the arguments are quaternions, uses racket's default @code{eq?} function, otherwise it converts each argument into a quaternion, then compares each corresponding element of two quaternions left to right. The and of those comparisions is returned.  
+
+@defproc[(eq? [x quaternion?/number?][y quaternion?/number?]) quaternion?/number?]{Defined in the module as @code{(quaternion-equal number1 number2)}. Returns @code{#t} if the two arguments are equivalent mathematically, otherwise returns @code{#f}.
+                                                                                   If none of the arguments are quaternions, uses racket's default @code{eq?} function, otherwise it converts each argument into a quaternion, then compares each corresponding element of two quaternions left to right. The and of those comparisons is returned.  
                                                                                    @codeblock|{
                                                                                                > (eq? (quaternion 2 5 34 -1) (quaternion 2 5 34 -1))
                                                                                                #t
@@ -70,7 +173,7 @@ This represents
                                                                         > (vector-part (quaternion 2 5 34 -1))
                                                                         (quaternion 0 5 34 -1)}|}
 
-@defproc[(norm [x quaternion?])number?]{Defined within the module as @code{(quaternion-norm number)}. Returns the norm of @code{x}. Also known as the magnitude, this represents the lenghth of the quaternion when represented as a vector. Found by taking the square root of the sum of the squares of the components of @code{x}.
+@defproc[(norm [x quaternion?])number?]{Defined within the module as @code{(quaternion-norm number)}. Returns the norm of @code{x}. Also known as the magnitude, this represents the length of the quaternion when represented as a vector. Found by taking the square root of the sum of the squares of the components of @code{x}.
                                                                      @codeblock|{ 
                                                                                  > (norm (quaternion 2 5 34 -1))
                                                                                  34.4383507154451252}|} 
@@ -98,7 +201,7 @@ This represents
 @subsection{Basic Operators}
 
 @defproc[(+ [x quaternion?/number?]...) quaternion?/number?]{Defined within the module as @code{(quaternion-add . quaternions)}. Returns the sum of all @code{x}s, or for only one @code{x} returns @code{x}.
-                                                             If none of the arguments are quaternions, uses racket's default @code{+} procedure. Otherwise, converts all arguments to quaternions and returns a new quaternion whose components are the the sums of the corresponding components of the arguments.
+                                                             If none of the arguments are quaternions, uses racket's default @code{+} procedure. Otherwise, converts all arguments to quaternions and returns a new quaternion whose components are the sums of the corresponding components of the arguments.
                                                              @codeblock|{
                                                                          > (+ (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
                                                                          (quaternion 1 5 38 15)
