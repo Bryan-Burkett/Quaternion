@@ -136,10 +136,10 @@ The "(quaternion 58.93364616794397 -34.08618369046563 -51.12927553569845 -68.172
 @defstruct[quaternion ([h real?] [i real?] [j real?] [k real?])]{A structure to represent a quaternion. @code{h} represents the real part, @code{i}, @code{j} and @code{k} represent the imaginary parts. If not provided with 4 real numbers, return a type-wrong-format error. Automatically defines @code{(quaternion? x)} to test if @code{x}
                                                                  is a quaternion. @code{(quaternion-h x)}, @code{(quaternion-i x)}, @code{(quaternion-j x)} and @code{(quaternion-k x)} can be used to get the components of a quaternion @code{x}.}
 
-@defproc[(q [h real?] [i real?] [j real?] [k real?]) quaternion?]{Creates a quaternion. The exact same as @code{(quaternion h i j k)}. Allows for faster typing.}
+@defproc[(q [h real?] [i real?] [j real?] [k real?]) quaternion?]{Creates a quaternion. The exact same as @code{(quaternion h i j k)}. Allows for faster typing.
 
 
-@defproc[(eq? [x quaternion?/number?][y quaternion?/number?]) quaternion?/number?]{Defined in the module as @code{(quaternion-equal number1 number2)}. Returns @code{#t} if the two arguments are equivalent mathematically, otherwise returns @code{#f}.
+@defproc[(eq? [x quaternion? number?][y quaternion? number?]) quaternion? number?]{Defined in the module as @code{(quaternion-equal number1 number2)}. Returns @code{#t} if the two arguments are equivalent mathematically, otherwise returns @code{#f}.
                                                                                    If none of the arguments are quaternions, uses racket's default @code{eq?} function, otherwise it converts each argument into a quaternion, then compares each corresponding element of two quaternions left to right. The and of those comparisons is returned.  
                                                                                    @codeblock|{
                                                                                                > (eq? (quaternion 2 5 34 -1) (quaternion 2 5 34 -1))
@@ -147,12 +147,12 @@ The "(quaternion 58.93364616794397 -34.08618369046563 -51.12927553569845 -68.172
                                                                                                > (eq? (quaternion 2 5 34 -1) (quaternion -1 0 4 16))
                                                                                                #f}|}
 
-@defproc[(quaternion->string [x quaternion?/number?]) string?]{Returns @code{x} as a string representation of a quaternion. Given in the form of @code{"(quaternion h i j k)"}.
+@defproc[(quaternion->string [x quaternion? number?]) string?]{Returns @code{x} as a string representation of a quaternion. Given in the form of @code{"(quaternion h i j k)"}.
                                                                        @codeblock|{ 
                                                                                    > (quaternion->string (quaternion 2 5 34 -1))
                                                                                    "(quaternion 2 5 34 -1)"}|}
 
-@defproc[(make-quaternion [x quaternion?/number?]) quaternion?]{Only available within the module. Turns any number into a quaternion. If @code{x} is a quaternion, returns @code{x}. If @code{x} is a number, returns @code{(quaternion (real-part x) (imag-part x) 0 0)}. If neither, returns @code{(quaternion 0 0 0 0)}.
+@defproc[(make-quaternion [x quaternion? number?]) quaternion?]{Only available within the module. Turns any number into a quaternion. If @code{x} is a quaternion, returns @code{x}. If @code{x} is a number, returns @code{(quaternion (real-part x) (imag-part x) 0 0)}. If neither, returns @code{(quaternion 0 0 0 0)}.
                                                                 @codeblock|{
                                                                             > (make-quaternion 2+3i)
                                                                             (quaternion 2 3 0 0)}|}
@@ -163,7 +163,7 @@ The "(quaternion 58.93364616794397 -34.08618369046563 -51.12927553569845 -68.172
                                                                               > (unmake-quaternion (quaternion 2 3 0 0))
                                                                               2+3i}|}
 
-@defproc[(scalar-part [x quaternion?/number?]) number?]{Returns the real part of @code{x} as a real number. For quaternions it is equivalent to @code{(quaternion-h x)}.
+@defproc[(scalar-part [x quaternion? number?]) number?]{Returns the real part of @code{x} as a real number. For quaternions it is equivalent to @code{(quaternion-h x)}.
                                                         @codeblock|{ 
                                                                     > (scalar-part (quaternion 2 5 34 -1))
                                                                     2}|}
@@ -303,4 +303,4 @@ To use qreader, require it, then simply type @code{(start)} in your interpreter.
 
 @defproc[(replaceQuatString [expString string?]) string?]{Goes through a string and replaces each instance of a quaternion in infix notation with the same quaternion in struct notation.}
 
-@defproc[(start) void?]{Creates a interpreter environment in which quaternions can be typed in infix notation. Upon hiting enter, the line is executed and @code{(start)} is called again.}
+@defproc[]
