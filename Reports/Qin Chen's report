@@ -1,0 +1,27 @@
+Individual report-Support
+
+
+  For this project, I was given the support role. As a support, my job is to test the program to ensure that all the 
+functions work properly.  When the project was first given, I didn’t know what role I would be, but I knew that I won’t 
+be able be the programmer so I thought a lesser role as a business consultant or a billing person or even a support person 
+would be fine with me. I eventually decided to be the support person for my role to test the program because I know that 
+by doing this; it will help me understand racket better. In the first couple week of the project, there isn’t much for 
+the support group. We mainly try to help the other groups or try to bounce idea with Justin on how we should approach this.
+We decided that one thing that would be really helpful for the program is that we need to make the program to throw an 
+exception if any kind of error happens. Whether it’s a wrong input or syntax error, it would help to notify the user that 
+something happened instead of quitting. Justin found the code for the exception called Guard and imported to Github so 
+that it works. 
+  Around the time guard was implemented, a good chunk of the code has been written so the testing phase began. I first 
+tested the add, subtract, multiply, and divide functions. These functions worked perfectly. I tested putting in letters 
+to trigger the guard which worked, I entered decimals and it worked fine. The second time when I tested it was when 
+qreader.rkt was created. I then tested the qreader and immediately I found the error that when the user enters -1-i-j-k 
+or 1+k+j+k, the program thinks it’s always positive. Only when the user enters -1-1i-1j-1k did it think it’s -1. 
+By modifying the code, Justin made it possible so that the user does not have to always enter -1 in front of the complex 
+variables. Our second error that appeared was when a decimal number like .05 was entered as the real part, the program 
+would break. We couldn’t figure out how to solve that so we let the programmers solve the problem. Finally when the 
+qreader.rkt was combined with the quarterion.rkt, we used testfile.rkt to test the two files together. I once again 
+tested the add, subtract, multiply, and divide. I also tested the magnitude, exp, log, expt, sin, cos , and = functions. 
+All of them worked correctly except for a tiny malfunction with the sin and cos functions. I checked all of these 
+functions with either an online calculator or with wolfram alpha. We decided that the programmers will fix it by telling 
+them what the problem is or if there even is there a problem. We reported the results and that concludes our job testing 
+the program.
