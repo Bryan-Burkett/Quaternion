@@ -1,0 +1,108 @@
+a8f5e62 Merge branch 'master' of https://github.com/Bryan-Burkett/Quaternion
+8fabb6b Documentation DONE
+c4c7f29 Merge branch 'master' of https://github.com/Bryan-Burkett/Quaternion
+d20e12f Added tan function, personal report
+6016f59 a paren
+8da0f3c Added q as a function
+2cf4663 Update qreader.rkt
+af9eb15 fixed the negative problem, and the regex
+2442acb Documentation
+08b260e Documentation
+d0b8daf Done with that file
+7234b3d fixfixfixfix
+adfc8c0 Removed another testing bit. >.>
+d48cdc9 removed some error testing bits
+03f9b38 Broke the crap out of it. Decimals should work now
+faaddd9 Fixed decimal error
+cc48984 Documentation
+a610964 Cleaned up * and /, fixed bugs in expt, sin, cos
+894d255 Found something wrong with sin and cos
+b61398f More Documentation work. UNIT IS WRONG
+84d2fbc Just saving my work on documentation
+4e18a89 De-cluttered the file, tested
+474e3cf Update TestFile.rkt
+05948bf Added some errors that were found
+0654b49 Update TestFile.rkt
+a0161bc fixed regex again
+7aee660 Broke it. Fixed the breaking in regex
+21139ac fixed some minor regexp problems,
+8566c81 No change in file. Just a message.vvvvvvvv
+0e9a39a Added a toString function. qreader needs it. YEEE
+4e6b598 Put reader in qreader.rkt with parser
+44eda6d READER COMPLETE WOOOOOOOOOOOOOOOOOOOO
+685cb66 OldOps No longer needed
+b66feb8 small fix to module import.  >.>
+66c2def Moved OldOps.rkt inside of Quaternion.rkt HA
+187b35b WHO BROKE THE RENAME OPERATORS? Just fixed
+bcab85f COOOOODDDDEEEEEEEEEE
+910704d This is what I got so far. going to continue tweaking. YAAAAAY
+f17c1ca saerg
+ec0e99d sh
+b9cde61 eg
+5bedfa3 Update Documentation.scrbl
+1033064 asfe
+6d6447a Wooo
+b7b88e0 Woo
+110aaa9 new cos and sin
+8dd7877 Update Support
+80dc63e I broke it a minute ago
+a2cd961 Cleaning up Quaternion.rkt
+dc21aa7 Parser completed.
+ea5543d Update qreader.rkt
+131d977 Create qreader.rkt
+f8bd4e0 Documentation!!!
+b66489e Documentation changes
+4ecb5d5 Added a Test File to test the module as an import
+45e0689 Update Quaternion.rkt
+105f4f3 Changed + to - for old-
+5d33b66 Update Quaternion.rkt
+6a0e185 Update Quaternion.rkt
+d182475 Fixed my operator changes
+6201d96 Old operators
+949531b Renamed operators
+62d6472 More Documentation
+6eb387f A few changes to Documentation
+bce3ef3 Update Support
+3ff937c Update Support
+6d13e30 A letter
+be7cab7 Added and tested the renaming functionality to + and -
+3f18028 Added a bit more
+f0f6a9a Just demonstrating scribble. More to come
+f54c992 Update Documentation
+8fb74ab Update Quaternion.rkt
+257a931 Update Quaternion.rkt
+cb2522a Alternate sin and cos, factorial base case to 0
+d9e2a82 Sine, Cosine, and factorial added. yaaaay
+d16e21d Edited expt for special cases
+0b92c3b Filled in the expt function
+e1fc8f5 I found this
+8426293 Filled in quaternion-log
+93265a8 Edited reciprocal, filled out quaternion-exp, tested
+11a41b8 Update Documentation
+a8ef836 Update Support
+adfbca2 Second
+39bdee3 Added division, sequential operator function
+b5fd598 Changed (multiply ) to naming convention
+2ee163a Update Documentation
+d054a06 Fixed Multiply function, scalar was off.
+7a654f8 Filled in functions, fixed norm/magnitude
+3198aa0 Update Quaternion.rkt
+d4f5169 Moved Arithmetic.rkt to Quaternion.rkt
+f21e3d5 Functions renamed for consistency
+c64ede0 Delete Quaternion.bak
+3171782 Update Documentation
+fc6bde5 First
+ff091db Create Support
+e88f3a9 First
+3a53af2 Rename Arithmatic to Arithmetic.rkt
+097b598 Base file
+d9cd89d First
+311b6df Barebones functions, tried makin an addition function
+04b1cfa Update Quaternion.rkt
+6c9769d Rough Draft
+bdd48b2 Testing
+8f2704d Delete Main
+d38f488 Test
+623a3d0 v 1.00
+fd5cf48 Update Main
+647f382 Create Main
