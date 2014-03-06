@@ -1,56 +1,25 @@
-Abstract: 
-I feel that the structure of the report should be a week by week basis of what we accomplished working towards the project.  
-We can start from the assignment of the project to its finalization and go through each roles involvement during each step of the process.  
-If anyone else has other suggestions, please list them here.
+Overview:  To discuss the team interactions during the completion of the project, the report will be broken down into detailed reports on what each role was involved in during each week of production.  
 
+Week 1 (1/19 – 1/26): 
+At the beginning of the semester we were assigned teams and given the requirements of the project.  Quaternions algebra was not a concept most of the team had worked with before.  On top of that, not all of the team had programmed in Racket before so moving into a functional language from their previous object oriented programming was quite the change.   The first step in completing the project was to fully comprehend the task at hand.  The whole team was charged with researching quaternions and their properties.  Team members that had worked with the Racket helped the transition for other team members in working in the Racket workspace.  We quickly decided Github was the best way to stay up to date with the code we will be working on throughout the project.  
 
-notable timeline of project events:
-Week 1: no lab
-1/21: Course began and project was assigned
-1/23: Github account set up and created test module for quaternion.rkt
-Week 2: introduction to racket
-1/30: Added collaborators on Gitub so the whole team can edit
-Week 3: Recursion and parsing lists
-2/6: Barebones functions added for required operations
-2/6: +, -, /, * all created along with make-quaternion function
-2/8: * and / fixed and log function completed
-Week 4: Modules and providing functions
-2/10: exponential function completed and case exceptions began being tested
-2/11: sin and cos taylor series approximation added
-Week 5: outside of class meetings
-2/19: attempted to overload operators by renaming the function calls
-2/23: #guard feature added to structure as error checking mechanism
-Week 6: Reader example
-2/25: qreader.rkt created
-2/26: reader parser completed
-2/27: Remade sin and cos functions to Euler's formula instead of series approximation
-2/28: streamlined qreader and quaternion files
+Week 2 (1/26 – 2/2): 
+After learning a bit more about our team members, we finalized roles assignments for the project.  We laid out the individual responsibilities for each role in the project.  The Project Leader and Analysis outlined what the first steps to take in starting this project would be.  We decided on a structure based approach to managing the quaternion data.  Team research proved fruitful as we found function equations that we could implement in the Racket syntax.  We also managed to find some small segments of scheme code relating to quaternions that we could draw ideas from.  Basic addition subtraction and multiplication functions were outlined and tested.  Getting these basic quaternion functions working properly was vital since other functions draw upon these to complete their function.  In lab this week we were given a quick tutorial on how to code in Racket.  This was immensely helpful to those who had not taken a class with Racket before and a nice refresher for the people who had.  
 
-(I will also be looking over old emails and the lab assignments to see what was done when) 
+Week 3(2/2 – 2/9):
+In this week the differences in tasks among the roles became more prominent.  Most of the required functions were created on the Github by the programmers.  A helper function seqOperator was created to help deal with individual cases for multiplication and division.  This function was later removed when we built in cases into the functions to make them more efficient.  Since functions were being fully completed, the support team was able to extensively test the functionality of the program.  The Business Consultants started to work on making the project image something desirable.  Documentation began to understand the workings of Scribble the built in documentation mechanism of Racket.  The problem of accepting input of the form real+i+j+k became a concern for the team.  Up until this point we had worked all of our project using structures but making the compiler recognize the input in its real+i+j+k form was proving troublesome.  More research was needed on this topic.  
 
-Overview: A basic description of the project involving the assignment objectives and requirements. Will be something short and sweet.
+Week 4 (2/9 – 2/16): 
+ After a conversation with Dr. Brown, we realized that we needed to find out how to overload operators in Racket.  Fortunately the lab during this week dealt with how modules within Racket are used.  This enabled us to rename the old operators like + and – to let us use those symbols for quaternion functions.   The exponential function was written with 5 separate cases, depending on whether the function was fed real numbers, zeroes or quaternions as the root or power.  The best formula for calculating sin and cos at the time was through a Taylor series.  Our programmers had the series extend to 45 terms for a reasonable estimate.  While not entirely desirable, it was functional and able to be tested. This was later changed to Euler’s formula for precise results. Support team had quite a bit to test with the addition of the overloaded functions and sin and cos.  Documentation began utilizing css and javascript to make the documentation through Scribble look very professional.  The styling was closely related to Racket’s own documentation as we are extending the base Racket functionality.   
 
-Week 1: 
-At the beginning of the project we were assigned teams and given the requirements of the project.  Quaternions algebra was not a concept most of the team had worked with before.  On top of that, not all of the team had programmed in Racket before so moving into a functional language from their previous object oriented programming was quite the change.   The first step in completing the project was to fully comprehend the task at hand.  The whole team was charged with researching quaternions and their properties.  Team members that had worked with the Racket helped the transition for other team members in working in the Racket workspace.  We quickly decided Github was the best way to stay up to date with the code we will be working on throughout the project.  
-Week 2: 
-After learning a bit more about our team members, we finalized roles assignments for the project.  We laid out the individual responsibilities for each role in the project.   In lab this week we were given a quick tutorial on how to code in Racket.  This was immensely helpful to those who had not taken a class with Racket before and a nice refresher for the people who had.  Team research proved fruitful as we found function equations that we could implement in the Racket syntax.  We also managed to find some small segments of scheme code relating to quaternions that we could draw ideas from.  Basic addition subtraction and multiplication functions outlined and tested.  Getting these basic quaternion functions working properly was vital since other functions draw upon these to complete their function.  
-Week 3:
-This week the differences in tasks among the roles became more prominent.  Most of the required functions were created on the Github by the programmers.  A helper function seqOperator was created to help deal with individual cases for multiplication and division.  This function was later removed when we built in cases into the functions to make them more efficient.  Since the functions were being completed the support team was able to extensively test the functionality of the program.  The Business Consultants started to work on making the project image something desirable.  Documentation began to understand the workings of Scribble the built in documentation mechanism of Racket.  
-Week 4: Modules and providing functions
- After a conversation with Dr. Brown, we realized that we needed to find out how to overload operators in Racket.  Fortunately the lab during this week dealt with how modules within Racket are used.  This enabled us to The exponential function was written with 5 separate cases, depending on whether the function was fed real numbers, zeroes or quaternions as the root or power.  The best formula for calculating sin and cos at the time was through a taylor series.  Our programmers had the series extend to 45 terms for a reasonable estimate.  While not entirely desirable, it was functional and able to be tested. This was later changed to Euler’s formula for precise results.  
+Week 5 (2/16 – 2/23): 
+Due to extenuating circumstances (Engineering Expo), the team was unable to come together for a formal meeting but a majority of the team managed to work out a small meeting time outside of school. In that time collaboration between the documentation team and the programming team was able to finally make the overloaded operators work as intended.  The Support team also added the #guard mechanism to the structure.  This enabled us to catch errors whenever a non-real number was entered as a coefficient to a quaternion.  This made it so we could freely pass in the quaternion structure into every function without having to check for valid inputs inside each function, greatly reducing the amount of code necessary.  Business and Billing began to work on putting together a PowerPoint and refining the talking points for the upcoming presentation.  
 
-Week 5: outside of class meetings
+Week 6 (2/23 – 3/2): 
+The lab for this week introduced the concept of readers and how to parse the inputs in a Racket program.  This was the long sought after solution to accepting the real+i+j+k form input.  The Project Leader, Analysis and programmers swiftly began to develop an idea of how to implement this in our own project.  The qreader program was created through this quick initiative.  The reader made use of regular expressions to parse the input into a newly generated input field.  This form converted useful information from the real+i+j+k form into the structure for ease of access and utility for the functions we created.  All members of the team helped out in integrating this new piece into the project.  Documentation worked extensively in understanding how the reader works in order to be able to adequately explain its purpose.  Support worked hard in testing the regular expression to try and find holes in the input that need to be fixed.  Business and Billing reworked their design for the presentation to include the reader as an integral part of the project.  The Project Leader and Analysis worked with everyone with their respective duties to make sure everything ran smoothly.  In the original program, we replaced the sin and cos approximations with Euler’s formula for more precise results. This also reduced the amount of code needed to perform these actions by removing helper functions used specifically by the old sin and cos functions. 
 
-unusual scheduled times due to fairs and expos
-the use of structures to represent quaternions allows our system to make use of the built-in guard feature
-
-Week 6: Reader example
-2/25: qreader.rkt created
-2/26: reader parser completed
-Remade sin and cos functions to Euler's formula instead of series approximation;
-this removed the necessity of a factorial helper function, reducing the size of our system even more. 
-
-
+Week 7 (3/2 – 3/6):
+ During this final week, outside of the final reports being completed, only small adjustments were made.  Programmers added a tan function and a neat short hand for creating a quaternion structure.  Documentation finished documenting the reader and polished the overall look of the documentation. Support finished up their testing of the reader and all of the assorted functions.  The Team Leader finished publishing the team report and the collection of individual reports.   Billing and Business set up a finalized presentation and held a rehearsal presentation that members of all teams attended.  As this project draws to a close we can reflect on the hard work and knowledge gained through working as a team.  Working in a team this large for a programming project may be a first for some but it gives experience akin to the professional world of software development.  
 
 
 
